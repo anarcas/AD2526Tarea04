@@ -77,7 +77,7 @@ public class Coche {
 
     @Override
     public String toString() {
-        return "Marca: " + this.getMarca() + ", modelo: " + this.getModelo() + ", kms: " + this.getKms() + " matrícula: " + this.getMatricula();
+        return this.getMatricula() + " - " + this.getMarca() + " " + this.getModelo();
     }
 
 }

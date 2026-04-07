@@ -18,17 +18,15 @@ public class Concesionario {
     private String telefono;
     private Integer numTrabajadores;
 
-    
-    public Concesionario(){
-    
-    this.cif = null;
+    public Concesionario() {
+        this.cif = null;
         this.nombre = null;
         this.direccion = null;
         this.provincia = null;
         this.telefono = null;
         this.numTrabajadores = null;
     }
-    
+
     public Concesionario(String cif, String nombre, String direccion, String provincia, String telefono, Integer numTrabajadores) {
         this.cif = cif;
         this.nombre = nombre;
@@ -85,7 +83,7 @@ public class Concesionario {
     public void setNumTrabajadores(Integer numTrabajadores) {
         this.numTrabajadores = numTrabajadores;
     }
-    
+
     @Override
     public String toString() {
         return "CIF: " + this.getCif() + " -> " + this.getNombre() + " (" + this.getProvincia() + ")";

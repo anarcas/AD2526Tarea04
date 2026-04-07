@@ -4,7 +4,7 @@
  */
 package ad04_naranjo_antonio;
 
-import com.db4o.ObjectSet;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,33 +15,45 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
     // Atributo para gestionar la BD
     private final ManejadorBaseDatos manejador;
+    private final String nombreBaseDatos = "concesionarios";
 
     /**
      * Creates new form AD04_ANC2526_JFrame
      */
     public InterfazGrafica() {
-        
+        // Se inician los componentes de la interfaz
         initComponents();
-        
         // Se ajusta el tamaño de la ventana al contenido
         this.pack();
-
         // Se centra la ventana en la pantalla (después de pack)
         this.setLocationRelativeTo(null);
-
         // Se inica el manejador de la base de datos solo  una vez al arrancar la interfaz
-        manejador = new ManejadorBaseDatos("concesionarios");
-
+        manejador = new ManejadorBaseDatos(this.nombreBaseDatos);
         // Cargamos el combo inicial
         rellenarCombo();
+        rellenarComboCoches();
     }
 
     // Método para rellenar el ComboBox de concesionarios
     private void rellenarCombo() {
         jComboBoxConcesionario.removeAllItems();
-        ObjectSet<Concesionario> lista = manejador.consultarConcesionarios();
+        List<Concesionario> lista = manejador.consultarConcesionarios();
         for (Concesionario c : lista) {
             jComboBoxConcesionario.addItem(c);
+        }
+    }
+
+    // Método para rellenar el ComboBox de coches
+    private void rellenarComboCoches() {
+        // 1. Limpiamos el combo por si tenía datos previos
+        jComboBoxCoches.removeAllItems();
+
+        // 2. Pedimos la lista al manejador
+        List<Coche> lista = manejador.consultarCoches();
+
+        // 3. Alimentamos el combo
+        for (Coche c : lista) {
+            jComboBoxCoches.addItem(c);
         }
     }
 
@@ -52,20 +64,36 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldDireccion.setText("");
         jTextFieldProvincia.setText("");
         jTextFieldTelefono.setText("");
-        jTextFieldNumTrab.setText("");
+        jSpinnerNumTrab.setValue(0);
 
-        // Opcional: Poner el foco de nuevo en el primer campo
+        // Poner el foco de nuevo en el primer campo CIF concesionario
         jTextFieldCif.requestFocus();
+    }
+
+    // Método para limpiar los campos de texto del panel coches
+    private void limpiarCamposCoche() {
+        jTextFieldMatricula.setText("");
+        jTextFieldMarca.setText("");
+        jTextFieldModelo.setText("");
+        jTextFieldKms.setText("");
+        jTextFieldPrecio.setText("");
+
+        // Resetear el ComboBox al primer elemento
+        if (jComboBoxConcesionario.getItemCount() > 0) {
+            jComboBoxConcesionario.setSelectedIndex(0);
+        }
+
+        // Devolver el foco a la Matrícula para el siguiente registro
+        jTextFieldMatricula.requestFocus();
     }
 
     // Método para salir de la aplicación previamente cerrando la base de datos
     private void salir() {
-
-        // Cierra la base de datos si el objeto manejador no es nulo
+        // Cerrar la base de datos si el objeto manejador no es nulo
         if (manejador != null) {
-            manejador.cerraBaseDatos();
+            manejador.cerraBaseDatos(this.nombreBaseDatos);
         }
-        // Cierra la aplicación por completo
+        // Cerrar la aplicación por completo
         System.exit(0);
     }
 
@@ -91,8 +119,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldDireccion = new javax.swing.JTextField();
         jTextFieldProvincia = new javax.swing.JTextField();
         jTextFieldTelefono = new javax.swing.JTextField();
-        jTextFieldNumTrab = new javax.swing.JTextField();
-        jButtonGuardar = new javax.swing.JButton();
+        jButtonGuardarConcesionario = new javax.swing.JButton();
+        jSpinnerNumTrab = new javax.swing.JSpinner();
+        jButtonEliminarConcesionario = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -107,8 +136,10 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldKms = new javax.swing.JTextField();
         jTextFieldPrecio = new javax.swing.JTextField();
         jComboBoxConcesionario = new javax.swing.JComboBox<>();
-        jButtonRegistrar = new javax.swing.JButton();
+        jButtonRegistrarCoche = new javax.swing.JButton();
+        jButtonSuprimirCoche = new javax.swing.JButton();
         jButtonSalir = new javax.swing.JButton();
+        jComboBoxCoches = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -144,12 +175,22 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextFieldTelefono.setToolTipText("123456789");
 
-        jTextFieldNumTrab.setToolTipText("2");
-
-        jButtonGuardar.setText("Guardar Concesionario");
-        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGuardarConcesionario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonGuardarConcesionario.setText("Guardar");
+        jButtonGuardarConcesionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarActionPerformed(evt);
+                jButtonGuardarConcesionarioActionPerformed(evt);
+            }
+        });
+
+        jSpinnerNumTrab.setModel(new javax.swing.SpinnerNumberModel());
+        jSpinnerNumTrab.setToolTipText("Número de trabajadores");
+
+        jButtonEliminarConcesionario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonEliminarConcesionario.setText("Eliminar");
+        jButtonEliminarConcesionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarConcesionarioActionPerformed(evt);
             }
         });
 
@@ -160,7 +201,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -170,15 +213,22 @@ public class InterfazGrafica extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7))
                         .addGap(52, 52, 52)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldCif, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldDireccion)
-                            .addComponent(jTextFieldNumTrab, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonGuardar, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(65, Short.MAX_VALUE))
+                            .addComponent(jTextFieldProvincia)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldCif, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jSpinnerNumTrab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jTextFieldNombre)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 17, Short.MAX_VALUE)
+                        .addComponent(jButtonEliminarConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonGuardarConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,10 +258,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextFieldNumTrab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButtonGuardar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSpinnerNumTrab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGuardarConcesionario)
+                    .addComponent(jButtonEliminarConcesionario))
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -241,7 +293,21 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextFieldPrecio.setToolTipText("Tipo dato Double");
 
-        jButtonRegistrar.setText("Registrar coche");
+        jButtonRegistrarCoche.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonRegistrarCoche.setText("Registrar");
+        jButtonRegistrarCoche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRegistrarCocheActionPerformed(evt);
+            }
+        });
+
+        jButtonSuprimirCoche.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonSuprimirCoche.setText("Suprimir");
+        jButtonSuprimirCoche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSuprimirCocheActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -261,19 +327,20 @@ public class InterfazGrafica extends javax.swing.JFrame {
                             .addComponent(jLabel14))
                         .addGap(52, 52, 52)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButtonSuprimirCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonRegistrarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                             .addComponent(jTextFieldModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                            .addComponent(jComboBoxConcesionario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextFieldKms, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jComboBoxConcesionario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonRegistrar)))
+                                        .addComponent(jTextFieldKms, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                                    .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -305,11 +372,14 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jComboBoxConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButtonRegistrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonRegistrarCoche)
+                    .addComponent(jButtonSuprimirCoche))
+                .addContainerGap())
         );
 
+        jButtonSalir.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButtonSalir.setText("Salir");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,69 +398,74 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(322, 322, 322)
+                .addComponent(jComboBoxCoches, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(jButtonSalir)
-                .addGap(22, 22, 22))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSalir)
+                    .addComponent(jComboBoxCoches, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+    private void jButtonGuardarConcesionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarConcesionarioActionPerformed
         // TODO add your handling code here:
 
         try {
             // Obtener y validar que no haya campos de texto vacíos
-            String cif = jTextFieldCif.getText().trim();
+            String cif = jTextFieldCif.getText().trim().toUpperCase();
             String nombre = jTextFieldNombre.getText().trim();
             String dir = jTextFieldDireccion.getText().trim();
             String prov = jTextFieldProvincia.getText().trim();
             String tel = jTextFieldTelefono.getText().trim();
+            int numTrab = (Integer) jSpinnerNumTrab.getValue();
 
+            // Comprobar si los campos de textos están vacios y lanzar la excepción si fuera necesario
             if (cif.isEmpty() || nombre.isEmpty() || dir.isEmpty() || prov.isEmpty() || tel.isEmpty()) {
                 throw new IllegalArgumentException("Todos los campos de texto son obligatorios.");
             }
 
-            // Validar formato numérico (Número de trabajadores)
-            Integer numTrab;
-            try {
-                numTrab = Integer.parseInt(jTextFieldNumTrab.getText().trim());
-                if (numTrab < 0) {
-                    throw new IllegalArgumentException("El número de trabajadores no puede ser negativo.");
-                }
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("El campo 'Núm. Trab.' debe ser un número entero válido.");
+            // Validar el CIF del concesionario con un formato adecuado según empresas españolas
+            if (!cif.matches("^[ABCDEFGHJNPQRSUVW][0-9]{7}[A-J0-9]$")) {
+                throw new IllegalArgumentException("El formato del CIF no es válido. Debe empezar por letra, seguido de 7 números y terminar en letra o número.");
             }
 
-            // Intento de registro en la BD
+            // Validar el número de teléfono
+            if (!tel.matches("[0-9]{9}")) {
+                throw new IllegalArgumentException("El teléfono debe tener exactamente 9 dígitos numéricos.");
+            }
+
+            // Intento de registro en la base de datos
             manejador.registrarConcesionario(cif, nombre, dir, prov, tel, numTrab);
-            // Registro exitoso
+            // Registro con éxito
             JOptionPane.showMessageDialog(this, "Concesionario " + nombre + " guardado con éxito.");
             rellenarCombo();
             limpiarCamposConcesionario();
 
         } catch (IllegalArgumentException ex) {
-            // Captura errores de validación previa (campos vacíos, formato número)
+            // Capturar errores de validación previa (campos vacíos, formato número)
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalStateException ex) {
-            // Captura el error de CIF ya registrado en la base de datos
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de duplicado", JOptionPane.WARNING_MESSAGE);
+            // Capturar el error de CIF ya registrado en la base de datos
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error: CIF ya registrado", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
-            // Error genérico no esperado
+            // Capturar errores genéricos no esperados
             JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButtonGuardarActionPerformed
+    }//GEN-LAST:event_jButtonGuardarConcesionarioActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
         // TODO add your handling code here:
@@ -401,6 +476,141 @@ public class InterfazGrafica extends javax.swing.JFrame {
         // TODO add your handling code here:
         salir();
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButtonRegistrarCocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarCocheActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Obtener y limpiar datos básicos
+            String matricula = jTextFieldMatricula.getText().trim().toUpperCase();
+            String marca = jTextFieldMarca.getText().trim();
+            String modelo = jTextFieldModelo.getText().trim();
+
+            // Comprobar si los campos de textos están vacios y lanzar la excepción si fuera necesario
+            if (matricula.isEmpty() || marca.isEmpty() || modelo.isEmpty()) {
+                throw new IllegalArgumentException("Todos los campos de texto son obligatorios.");
+            }
+
+            // Validar Matrícula (4 números, espacio, 3 letras permitidas para las matrículas de vehículos en España)
+            if (!matricula.matches("^[0-9]{4}\\s[BCDFGHJKLMNPRSTVWXYZ]{3}$")) {
+                throw new IllegalArgumentException("Formato de matrícula incorrecto (Ej: 1234 BBB)");
+            }
+
+            // Validar Kilómetros
+            Long kms;
+            try {
+                kms = Long.parseLong(jTextFieldKms.getText().trim());
+                if (kms <= 0) {
+                    throw new IllegalArgumentException("Los kilómetros deben ser mayores a 0.");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Kilómetros: debe introducir un número entero largo.");
+            }
+
+            // Validar Precio
+            Double precio;
+            try {
+                precio = Double.parseDouble(jTextFieldPrecio.getText().trim().replace(",", "."));
+                if (precio <= 0) {
+                    throw new IllegalArgumentException("El precio debe ser mayor a 0.");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Precio: debe introducir un número decimal válido.");
+            }
+
+            // Obtener Concesionario del ComboBox
+            Concesionario conceSeleccionado = (Concesionario) jComboBoxConcesionario.getSelectedItem();
+            if (conceSeleccionado == null) {
+                throw new IllegalArgumentException("Debe seleccionar un concesionario de la lista.");
+            }
+
+            // Se intenta registrar el vehículo
+            manejador.registrarCoche(matricula, marca, modelo, kms, precio, conceSeleccionado);
+
+            JOptionPane.showMessageDialog(this, "Vehículo registrado correctamente.");
+            rellenarComboCoches();
+            limpiarCamposCoche(); // Deberás crear este método similar al de concesionarios
+
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalStateException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de duplicado", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.toString());
+        }
+    }//GEN-LAST:event_jButtonRegistrarCocheActionPerformed
+
+    private void jButtonEliminarConcesionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarConcesionarioActionPerformed
+        // TODO add your handling code here:
+        try {
+            String cif = jTextFieldCif.getText().trim().toUpperCase();
+            if (cif.isEmpty()) {
+                throw new IllegalArgumentException("Debe indicar el CIF del concesionario a borrar.");
+            }
+
+            // Confirmación para eliminar el concesionario
+            int respuesta = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro de que desea eliminar el concesionario " + cif + "?",
+                    "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+
+            if (respuesta == JOptionPane.YES_OPTION) {
+
+                manejador.borrarConcesionario(cif);
+
+                JOptionPane.showMessageDialog(this, "Concesionario eliminado correctamente.");
+
+                // Se actualiza la interfaz
+                rellenarCombo();
+                limpiarCamposConcesionario();
+            }
+
+        } catch (IllegalStateException ex) {
+            // Captar el error si el concesionario tiene coches
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Restricción de borrado", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage());
+        }
+
+    }//GEN-LAST:event_jButtonEliminarConcesionarioActionPerformed
+
+    private void jButtonSuprimirCocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuprimirCocheActionPerformed
+        // TODO add your handling code here:
+        try {
+            String matricula = jTextFieldMatricula.getText().trim().toUpperCase();
+
+            // Validación básica: campo vacío
+            if (matricula.isEmpty()) {
+                throw new IllegalArgumentException("Por favor, introduzca la matrícula del coche a eliminar.");
+            }
+
+            // Confirmación para eliminar el coche
+            int respuesta = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro de que desea eliminar el coche " + matricula + "?",
+                    "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+
+            if (respuesta == JOptionPane.YES_OPTION) {
+
+                manejador.borrarCoche(matricula);
+
+                String msg = "Coche con matrícula " + matricula + "eliminado correctamente.";
+                System.out.println(msg);
+                JOptionPane.showMessageDialog(this, msg);
+
+                // Limpiar los campos del panel de coches
+                rellenarComboCoches();
+                limpiarCamposCoche();
+            }
+
+        } catch (IllegalStateException ex) {
+            // Error si el coche no existe
+            System.err.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de borrado", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException ex) {
+            // Error si el campo está vacío
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.toString());
+        }
+    }//GEN-LAST:event_jButtonSuprimirCocheActionPerformed
 
     /**
      * @param args the command line arguments
@@ -439,9 +649,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonGuardar;
-    private javax.swing.JButton jButtonRegistrar;
+    private javax.swing.JButton jButtonEliminarConcesionario;
+    private javax.swing.JButton jButtonGuardarConcesionario;
+    private javax.swing.JButton jButtonRegistrarCoche;
     private javax.swing.JButton jButtonSalir;
+    private javax.swing.JButton jButtonSuprimirCoche;
+    private javax.swing.JComboBox<Coche> jComboBoxCoches;
     private javax.swing.JComboBox<Concesionario> jComboBoxConcesionario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -459,6 +672,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JSpinner jSpinnerNumTrab;
     private javax.swing.JTextField jTextFieldCif;
     private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldKms;
@@ -466,7 +680,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldMatricula;
     private javax.swing.JTextField jTextFieldModelo;
     private javax.swing.JTextField jTextFieldNombre;
-    private javax.swing.JTextField jTextFieldNumTrab;
     private javax.swing.JTextField jTextFieldPrecio;
     private javax.swing.JTextField jTextFieldProvincia;
     private javax.swing.JTextField jTextFieldTelefono;
