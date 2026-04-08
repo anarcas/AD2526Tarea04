@@ -5,11 +5,12 @@
 package ad04_naranjo_antonio;
 
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author anaranjo
+ * @author Antonio Naranjo Castillo
  */
 public class InterfazGrafica extends javax.swing.JFrame {
 
@@ -30,30 +31,33 @@ public class InterfazGrafica extends javax.swing.JFrame {
         // Se inica el manejador de la base de datos solo  una vez al arrancar la interfaz
         manejador = new ManejadorBaseDatos(this.nombreBaseDatos);
         // Cargamos el combo inicial
-        rellenarCombo();
-        rellenarComboCoches();
+        rellenarComboConcesionario(jComboBoxConcesionario);
+        rellenarComboConcesionario(jComboBoxBorrarConcesionario);
+        rellenarComboConcesionario(jComboBoxConcesionarioOrdenarCoche);
+        rellenarComboBorrarCoches();
     }
 
     // Método para rellenar el ComboBox de concesionarios
-    private void rellenarCombo() {
-        jComboBoxConcesionario.removeAllItems();
+    private void rellenarComboConcesionario(JComboBox<Concesionario> combo) {
+        // Limpiar el combo si tenía datos previos
+        combo.removeAllItems();
+        // Obtener la lista de objetos de la clase Concesinarios
         List<Concesionario> lista = manejador.consultarConcesionarios();
+        // Alimentar el combo con la lista de objetos Concesionarios
         for (Concesionario c : lista) {
-            jComboBoxConcesionario.addItem(c);
+            combo.addItem(c);
         }
     }
 
     // Método para rellenar el ComboBox de coches
-    private void rellenarComboCoches() {
-        // 1. Limpiamos el combo por si tenía datos previos
-        jComboBoxCoches.removeAllItems();
-
-        // 2. Pedimos la lista al manejador
+    private void rellenarComboBorrarCoches() {
+        // Limpiar el combo si tenía datos previos
+        jComboBoxBorrarCoche.removeAllItems();
+        // Obtener la lista de objetos de la clase Coche
         List<Coche> lista = manejador.consultarCoches();
-
-        // 3. Alimentamos el combo
+        // Alimentar el combo con la lista de objetos Coche
         for (Coche c : lista) {
-            jComboBoxCoches.addItem(c);
+            jComboBoxBorrarCoche.addItem(c);
         }
     }
 
@@ -66,7 +70,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldTelefono.setText("");
         jSpinnerNumTrab.setValue(0);
 
-        // Poner el foco de nuevo en el primer campo CIF concesionario
+        // Poner el foco de nuevo en el primer campo CIF del panel Concesionarios
         jTextFieldCif.requestFocus();
     }
 
@@ -78,12 +82,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldKms.setText("");
         jTextFieldPrecio.setText("");
 
-        // Resetear el ComboBox al primer elemento
+        // Reiniciar el ComboBox al primer elemento
         if (jComboBoxConcesionario.getItemCount() > 0) {
             jComboBoxConcesionario.setSelectedIndex(0);
         }
 
-        // Devolver el foco a la Matrícula para el siguiente registro
+        // Poner el foco de nuevo en el primer campo Matrícula del panel Coches
         jTextFieldMatricula.requestFocus();
     }
 
@@ -121,7 +125,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldTelefono = new javax.swing.JTextField();
         jButtonGuardarConcesionario = new javax.swing.JButton();
         jSpinnerNumTrab = new javax.swing.JSpinner();
-        jButtonEliminarConcesionario = new javax.swing.JButton();
+        jButtonLimpiarConcesionarios = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -137,9 +141,35 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldPrecio = new javax.swing.JTextField();
         jComboBoxConcesionario = new javax.swing.JComboBox<>();
         jButtonRegistrarCoche = new javax.swing.JButton();
+        jButtonLimpiarCoches = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jComboBoxBorrarCoche = new javax.swing.JComboBox<>();
+        jComboBoxBorrarConcesionario = new javax.swing.JComboBox<>();
+        jButtonEliminarConcesionario = new javax.swing.JButton();
         jButtonSuprimirCoche = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
         jButtonSalir = new javax.swing.JButton();
-        jComboBoxCoches = new javax.swing.JComboBox<>();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jButtonMostrarConcesionarios = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaListadoConcesionarios = new javax.swing.JTextArea();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jButtonMostrarCoches = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaListadoCoches = new javax.swing.JTextArea();
+        jComboBoxConcesionarioOrdenarCoche = new javax.swing.JComboBox<>();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jButtonMostrarCochesKmRecorridos = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextAreaListadoCochesKmRecorridos = new javax.swing.JTextArea();
+        jTextFieldKmsRecorridos = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -151,7 +181,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jLabel1.setText("CONCESIONARIOS");
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel1.setText("REGISTRAR Concesionarios (EJ. 1)");
 
         jLabel2.setText("CIF");
 
@@ -177,6 +208,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jButtonGuardarConcesionario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButtonGuardarConcesionario.setText("Guardar");
+        jButtonGuardarConcesionario.setToolTipText("Guardar Concesionario");
         jButtonGuardarConcesionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGuardarConcesionarioActionPerformed(evt);
@@ -186,11 +218,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jSpinnerNumTrab.setModel(new javax.swing.SpinnerNumberModel());
         jSpinnerNumTrab.setToolTipText("Número de trabajadores");
 
-        jButtonEliminarConcesionario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButtonEliminarConcesionario.setText("Eliminar");
-        jButtonEliminarConcesionario.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLimpiarConcesionarios.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonLimpiarConcesionarios.setText("Limpiar");
+        jButtonLimpiarConcesionarios.setToolTipText("Limpiar los campos de texto");
+        jButtonLimpiarConcesionarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarConcesionarioActionPerformed(evt);
+                jButtonLimpiarConcesionariosActionPerformed(evt);
             }
         });
 
@@ -221,11 +254,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
                                     .addComponent(jTextFieldCif, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jSpinnerNumTrab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 111, Short.MAX_VALUE))
                             .addComponent(jTextFieldNombre)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 17, Short.MAX_VALUE)
-                        .addComponent(jButtonEliminarConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonLimpiarConcesionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonGuardarConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -262,14 +295,15 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGuardarConcesionario)
-                    .addComponent(jButtonEliminarConcesionario))
+                    .addComponent(jButtonLimpiarConcesionarios))
                 .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jLabel8.setText("COCHES");
+        jLabel8.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel8.setText("REGISTRAR Coches (EJ. 3)");
 
         jLabel9.setText("Matrícula");
 
@@ -295,17 +329,19 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jButtonRegistrarCoche.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButtonRegistrarCoche.setText("Registrar");
+        jButtonRegistrarCoche.setToolTipText("Registrar Coche");
         jButtonRegistrarCoche.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRegistrarCocheActionPerformed(evt);
             }
         });
 
-        jButtonSuprimirCoche.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButtonSuprimirCoche.setText("Suprimir");
-        jButtonSuprimirCoche.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLimpiarCoches.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonLimpiarCoches.setText("Limpiar");
+        jButtonLimpiarCoches.setToolTipText("Limpiar los campos de texto");
+        jButtonLimpiarCoches.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSuprimirCocheActionPerformed(evt);
+                jButtonLimpiarCochesActionPerformed(evt);
             }
         });
 
@@ -328,8 +364,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
                         .addGap(52, 52, 52)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButtonSuprimirCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButtonLimpiarCoches, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButtonRegistrarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                             .addComponent(jTextFieldModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
@@ -372,20 +409,259 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jComboBoxConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRegistrarCoche)
-                    .addComponent(jButtonSuprimirCoche))
+                    .addComponent(jButtonLimpiarCoches))
                 .addContainerGap())
         );
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel15.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel15.setText("ELIMINAR OBJETOS de la base de objetos db4o (EJ. 2; 4)");
+
+        jLabel16.setText("Concesionarios:");
+
+        jLabel17.setText("Coches:");
+
+        jButtonEliminarConcesionario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonEliminarConcesionario.setText("Eliminar");
+        jButtonEliminarConcesionario.setToolTipText("Eliminar Concesionario");
+        jButtonEliminarConcesionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarConcesionarioActionPerformed(evt);
+            }
+        });
+
+        jButtonSuprimirCoche.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonSuprimirCoche.setText("Suprimir");
+        jButtonSuprimirCoche.setToolTipText("Suprimir Coche");
+        jButtonSuprimirCoche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSuprimirCocheActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel17))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBoxBorrarConcesionario, 0, 317, Short.MAX_VALUE)
+                            .addComponent(jComboBoxBorrarCoche, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonEliminarConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSuprimirCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jComboBoxBorrarConcesionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonEliminarConcesionario))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jComboBoxBorrarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSuprimirCoche))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jButtonSalir.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButtonSalir.setText("Salir");
+        jButtonSalir.setToolTipText("Salir de la aplicación");
         jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalirActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonSalir)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel18.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel18.setText("MOSTRAR todos los concesionarios ordenados por nombre (EJ. 5)");
+
+        jButtonMostrarConcesionarios.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonMostrarConcesionarios.setText("Mostrar");
+        jButtonMostrarConcesionarios.setToolTipText("Mostrar lista ordenada de Concesionarios");
+        jButtonMostrarConcesionarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMostrarConcesionariosActionPerformed(evt);
+            }
+        });
+
+        jTextAreaListadoConcesionarios.setEditable(false);
+        jTextAreaListadoConcesionarios.setColumns(20);
+        jTextAreaListadoConcesionarios.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaListadoConcesionarios);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonMostrarConcesionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jButtonMostrarConcesionarios))
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel19.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel19.setText("Mostrar todos los coches de un concesionario, ordenados por precio (EJ. 6)");
+
+        jButtonMostrarCoches.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonMostrarCoches.setText("Mostrar");
+        jButtonMostrarCoches.setToolTipText("Mostrar lista ordenada de Concesionarios");
+        jButtonMostrarCoches.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMostrarCochesActionPerformed(evt);
+            }
+        });
+
+        jTextAreaListadoCoches.setEditable(false);
+        jTextAreaListadoCoches.setColumns(20);
+        jTextAreaListadoCoches.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaListadoCoches);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jComboBoxConcesionarioOrdenarCoche, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonMostrarCoches, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel19)
+                .addGap(14, 14, 14)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxConcesionarioOrdenarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonMostrarCoches))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+        );
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel20.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel20.setText("Mostrar todos los coches que hayan recorrido una distancia dada (EJ. 7)");
+
+        jButtonMostrarCochesKmRecorridos.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonMostrarCochesKmRecorridos.setText("Mostrar");
+        jButtonMostrarCochesKmRecorridos.setToolTipText("Mostrar lista ordenada de Concesionarios");
+        jButtonMostrarCochesKmRecorridos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMostrarCochesKmRecorridosActionPerformed(evt);
+            }
+        });
+
+        jTextAreaListadoCochesKmRecorridos.setEditable(false);
+        jTextAreaListadoCochesKmRecorridos.setColumns(20);
+        jTextAreaListadoCochesKmRecorridos.setRows(5);
+        jScrollPane3.setViewportView(jTextAreaListadoCochesKmRecorridos);
+
+        jTextFieldKmsRecorridos.setToolTipText("Tipo dato Long");
+
+        jLabel21.setText("Kilómetros");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonMostrarCochesKmRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel20)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonMostrarCochesKmRecorridos)
+                    .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -393,16 +669,24 @@ public class InterfazGrafica extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(322, 322, 322)
-                .addComponent(jComboBoxCoches, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(32, 32, 32)
-                .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 175, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,11 +695,17 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalir)
-                    .addComponent(jComboBoxCoches, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -424,8 +714,10 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private void jButtonGuardarConcesionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarConcesionarioActionPerformed
         // TODO add your handling code here:
 
+        // Variable para almacenar el mensaje de salida
+        String mensaje;
         try {
-            // Obtener y validar que no haya campos de texto vacíos
+            // Obtener datos de los campos de texto
             String cif = jTextFieldCif.getText().trim().toUpperCase();
             String nombre = jTextFieldNombre.getText().trim();
             String dir = jTextFieldDireccion.getText().trim();
@@ -433,26 +725,34 @@ public class InterfazGrafica extends javax.swing.JFrame {
             String tel = jTextFieldTelefono.getText().trim();
             int numTrab = (Integer) jSpinnerNumTrab.getValue();
 
-            // Comprobar si los campos de textos están vacios y lanzar la excepción si fuera necesario
+            // Validar si los campos de textos están vacios y lanzar la excepción si fuera necesario
             if (cif.isEmpty() || nombre.isEmpty() || dir.isEmpty() || prov.isEmpty() || tel.isEmpty()) {
-                throw new IllegalArgumentException("Todos los campos de texto son obligatorios.");
+                mensaje = "Error: Todos los campos de texto del panel CONCESIONARIOS son obligatorios.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Validar el CIF del concesionario con un formato adecuado según empresas españolas
-            if (!cif.matches("^[ABCDEFGHJNPQRSUVW][0-9]{7}[A-J0-9]$")) {
-                throw new IllegalArgumentException("El formato del CIF no es válido. Debe empezar por letra, seguido de 7 números y terminar en letra o número.");
+            if (!cif.matches("^[A-Z][0-9]{7}[A-Z0-9]$")) {
+                mensaje = "Error: El formato del CIF no es válido. Debe empezar por letra, seguido de 7 números y terminar en letra o número.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Validar el número de teléfono
             if (!tel.matches("[0-9]{9}")) {
-                throw new IllegalArgumentException("El teléfono debe tener exactamente 9 dígitos numéricos.");
+                mensaje = "Error: El campo teléfono debe tener exactamente 9 dígitos numéricos.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Intento de registro en la base de datos
             manejador.registrarConcesionario(cif, nombre, dir, prov, tel, numTrab);
             // Registro con éxito
             JOptionPane.showMessageDialog(this, "Concesionario " + nombre + " guardado con éxito.");
-            rellenarCombo();
+            rellenarComboConcesionario(jComboBoxConcesionario);
+            rellenarComboConcesionario(jComboBoxBorrarConcesionario);
+            rellenarComboConcesionario(jComboBoxConcesionarioOrdenarCoche);
             limpiarCamposConcesionario();
 
         } catch (IllegalArgumentException ex) {
@@ -479,6 +779,10 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
     private void jButtonRegistrarCocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarCocheActionPerformed
         // TODO add your handling code here:
+
+        // Variable para almacenar el mensaje de salida
+        String mensaje;
+
         try {
             // Obtener y limpiar datos básicos
             String matricula = jTextFieldMatricula.getText().trim().toUpperCase();
@@ -487,12 +791,16 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
             // Comprobar si los campos de textos están vacios y lanzar la excepción si fuera necesario
             if (matricula.isEmpty() || marca.isEmpty() || modelo.isEmpty()) {
-                throw new IllegalArgumentException("Todos los campos de texto son obligatorios.");
+                mensaje = "Error: Todos los campos de texto del panel COCHES son obligatorios.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Validar Matrícula (4 números, espacio, 3 letras permitidas para las matrículas de vehículos en España)
-            if (!matricula.matches("^[0-9]{4}\\s[BCDFGHJKLMNPRSTVWXYZ]{3}$")) {
-                throw new IllegalArgumentException("Formato de matrícula incorrecto (Ej: 1234 BBB)");
+            if (!matricula.matches("^[0-9]{4}\\s[A-Z]{3}$")) {
+                mensaje = "Error: Formato de matrícula incorrecto (Formato correcto: cuatro dígitos, espacio y tres letras -> Ej: 1234 FCK).";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Validar Kilómetros
@@ -500,10 +808,14 @@ public class InterfazGrafica extends javax.swing.JFrame {
             try {
                 kms = Long.parseLong(jTextFieldKms.getText().trim());
                 if (kms <= 0) {
-                    throw new IllegalArgumentException("Los kilómetros deben ser mayores a 0.");
+                    mensaje = "Error: Los kilómetros deben ser mayores a 0.";
+                    System.err.println(mensaje);
+                    throw new IllegalArgumentException(mensaje);
                 }
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Kilómetros: debe introducir un número entero largo.");
+                mensaje = "Error: los kilómetros debe introducir un número entero (tipo dato Long).";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Validar Precio
@@ -511,41 +823,59 @@ public class InterfazGrafica extends javax.swing.JFrame {
             try {
                 precio = Double.parseDouble(jTextFieldPrecio.getText().trim().replace(",", "."));
                 if (precio <= 0) {
-                    throw new IllegalArgumentException("El precio debe ser mayor a 0.");
+                    mensaje = "Error: El precio debe ser mayor que cero.";
+                    System.err.println(mensaje);
+                    throw new IllegalArgumentException(mensaje);
                 }
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Precio: debe introducir un número decimal válido.");
+                mensaje = "Error: El precio debe ser un número decimal válido (tipo dato Double).";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Obtener Concesionario del ComboBox
             Concesionario conceSeleccionado = (Concesionario) jComboBoxConcesionario.getSelectedItem();
             if (conceSeleccionado == null) {
-                throw new IllegalArgumentException("Debe seleccionar un concesionario de la lista.");
+                mensaje = "Error: Debe seleccionar un concesionario de la lista.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
             // Se intenta registrar el vehículo
             manejador.registrarCoche(matricula, marca, modelo, kms, precio, conceSeleccionado);
 
-            JOptionPane.showMessageDialog(this, "Vehículo registrado correctamente.");
-            rellenarComboCoches();
-            limpiarCamposCoche(); // Deberás crear este método similar al de concesionarios
+            JOptionPane.showMessageDialog(this, "Vehículo con matrícula " + matricula + " registrado correctamente.");
+            rellenarComboBorrarCoches();
+            limpiarCamposCoche();
 
         } catch (IllegalArgumentException ex) {
+            // Capta error de validación
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de validación", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalStateException ex) {
+            // Capta error de duplicado o objeto ya registrado en la base de datos
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de duplicado", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
+            // Capta errores inesperados
             JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.toString());
         }
     }//GEN-LAST:event_jButtonRegistrarCocheActionPerformed
 
     private void jButtonEliminarConcesionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarConcesionarioActionPerformed
         // TODO add your handling code here:
+
+        // Variable para almacenar el mensaje de salida
+        String mensaje;
+
         try {
-            String cif = jTextFieldCif.getText().trim().toUpperCase();
-            if (cif.isEmpty()) {
-                throw new IllegalArgumentException("Debe indicar el CIF del concesionario a borrar.");
+            Concesionario concesionarioSelecionado = (Concesionario) jComboBoxBorrarConcesionario.getSelectedItem();
+            if (concesionarioSelecionado == null) {
+                mensaje = "Error: No hay ningún concesionario seleccionado para borrar.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
+
+            // Se extrae el CIF del concesionario a borrar
+            String cif = concesionarioSelecionado.getCif();
 
             // Confirmación para eliminar el concesionario
             int respuesta = JOptionPane.showConfirmDialog(this,
@@ -555,18 +885,20 @@ public class InterfazGrafica extends javax.swing.JFrame {
             if (respuesta == JOptionPane.YES_OPTION) {
 
                 manejador.borrarConcesionario(cif);
-
-                JOptionPane.showMessageDialog(this, "Concesionario eliminado correctamente.");
+                JOptionPane.showMessageDialog(this, "Concesionario " + cif + "eliminado correctamente.");
 
                 // Se actualiza la interfaz
-                rellenarCombo();
+                rellenarComboConcesionario(jComboBoxConcesionario);
+                rellenarComboConcesionario(jComboBoxBorrarConcesionario);
+                rellenarComboConcesionario(jComboBoxConcesionarioOrdenarCoche);
                 limpiarCamposConcesionario();
             }
 
         } catch (IllegalStateException ex) {
-            // Captar el error si el concesionario tiene coches
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Restricción de borrado", JOptionPane.WARNING_MESSAGE);
+            // Captar el error si el concesionario tiene coches a la venta en sus registros
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Condición de borrado", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
+            // Captar errores al eliminar
             JOptionPane.showMessageDialog(this, "Error al eliminar: " + ex.getMessage());
         }
 
@@ -574,14 +906,21 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
     private void jButtonSuprimirCocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuprimirCocheActionPerformed
         // TODO add your handling code here:
-        try {
-            String matricula = jTextFieldMatricula.getText().trim().toUpperCase();
 
-            // Validación básica: campo vacío
-            if (matricula.isEmpty()) {
-                throw new IllegalArgumentException("Por favor, introduzca la matrícula del coche a eliminar.");
+        // Variable para almacenar el mensaje de salida
+        String mensaje;
+
+        try {
+            Coche cocheSelecionado = (Coche) jComboBoxBorrarCoche.getSelectedItem();
+
+            if (cocheSelecionado == null) {
+                mensaje = "Error: No existe ningún coche seleccionado a eliminar.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
             }
 
+            // Se obtiene la matrícula del coche
+            String matricula = cocheSelecionado.getMatricula();
             // Confirmación para eliminar el coche
             int respuesta = JOptionPane.showConfirmDialog(this,
                     "¿Está seguro de que desea eliminar el coche " + matricula + "?",
@@ -590,27 +929,166 @@ public class InterfazGrafica extends javax.swing.JFrame {
             if (respuesta == JOptionPane.YES_OPTION) {
 
                 manejador.borrarCoche(matricula);
-
-                String msg = "Coche con matrícula " + matricula + "eliminado correctamente.";
-                System.out.println(msg);
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, "Coche con matrícula " + matricula + "eliminado correctamente.");
 
                 // Limpiar los campos del panel de coches
-                rellenarComboCoches();
+                rellenarComboBorrarCoches();
                 limpiarCamposCoche();
             }
 
         } catch (IllegalStateException ex) {
             // Error si el coche no existe
-            System.err.println(ex.getMessage());
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de borrado", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException ex) {
             // Error si el campo está vacío
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
+            // Otros errores inesperados
             JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.toString());
         }
     }//GEN-LAST:event_jButtonSuprimirCocheActionPerformed
+
+    private void jButtonLimpiarConcesionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarConcesionariosActionPerformed
+        // TODO add your handling code here:
+        limpiarCamposConcesionario();
+
+    }//GEN-LAST:event_jButtonLimpiarConcesionariosActionPerformed
+
+    private void jButtonLimpiarCochesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarCochesActionPerformed
+        // TODO add your handling code here:
+        limpiarCamposCoche();
+    }//GEN-LAST:event_jButtonLimpiarCochesActionPerformed
+
+    private void jButtonMostrarConcesionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarConcesionariosActionPerformed
+        // TODO add your handling code here:
+
+        // Obtener la lista ordenada desde el objeto manejador
+        List<Concesionario> lista = manejador.consultarConcesionariosOrdenados();
+
+        // Se hace uso de un objeto StringBuilder para construir el texto que se mostrará en una etiqueta JLabel
+        StringBuilder sb = new StringBuilder();
+        // Se añade un título inicial
+        sb.append("=== LISTADO DE CONCESIONARIOS (Ordenados por nombre) ===\n\n");
+        // Se construye el cuerpo del texto
+        for (Concesionario c : lista) {
+            sb.append("* ").append(c.toString()).append("\n");
+        }
+
+        // Se muestra el resultado
+        jTextAreaListadoConcesionarios.setText(sb.toString());
+        // Posicionar el scroll al principio por defecto tras el volcado de datos
+        jTextAreaListadoConcesionarios.setCaretPosition(0);
+
+    }//GEN-LAST:event_jButtonMostrarConcesionariosActionPerformed
+
+    private void jButtonMostrarCochesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarCochesActionPerformed
+        // TODO add your handling code here:
+
+        // Variable para almacenar el mensaje de salida
+        String mensaje;
+
+        try {
+            // Obtenemos el concesionario del ComboBox
+            Concesionario conce = (Concesionario) jComboBoxConcesionarioOrdenarCoche.getSelectedItem();
+
+            if (conce == null) {
+                mensaje = "Error: Seleccione un concesionario primero.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
+            }
+
+            // Se construye la lista de coches acorde a la consulta por medio del objeto manejador
+            List<Coche> lista = manejador.consultarCochesPorConcesionarioOrdenados(conce);
+
+            // Se construye el listado
+            StringBuilder sb = new StringBuilder();
+            sb.append("COCHES EN: ").append(conce.getNombre()).append("\n");
+            sb.append("Ordenados por precio (Ascendente)\n");
+            sb.append("--------------------------------------------------\n");
+
+            if (lista.isEmpty()) {
+                sb.append("No hay coches registrados en este concesionario.");
+            } else {
+                for (Coche coche : lista) {
+                    sb.append(String.format("- %s %s | Precio: %.2f € | Matrícula: %s | Distancia recorrida: %d kms\n",
+                            coche.getMarca(), coche.getModelo(), coche.getPrecio(), coche.getMatricula(),coche.getKms()));
+                }
+            }
+
+            // Mostrar listado en el área de texto
+            jTextAreaListadoCoches.setText(sb.toString());
+            jTextAreaListadoCoches.setCaretPosition(0);
+
+        } catch (IllegalArgumentException ex) {
+            // Se capta el error de validación
+            mensaje = "Error de validación: " + ex.getMessage();
+            System.err.println(mensaje);
+            JOptionPane.showMessageDialog(this, mensaje, "Faltan datos", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            // Captar errores inesperados
+            mensaje = "Error en la consulta: " + ex.getMessage();
+            System.err.println(mensaje);
+            JOptionPane.showMessageDialog(this, "Error en la consulta: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonMostrarCochesActionPerformed
+
+    private void jButtonMostrarCochesKmRecorridosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarCochesKmRecorridosActionPerformed
+        // TODO add your handling code here:
+
+        // Variable para almacenar el mensaje de salida
+        String mensaje;
+        try {
+            // Recoger texto y validar que no esté vacío
+            String textoKm = jTextFieldKmsRecorridos.getText().trim();
+
+            if (textoKm.isEmpty()) {
+                mensaje = "Error: El campo de kilómetros no puede estar vacío.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
+            }
+
+            // Validar que sea un número entero
+            int km;
+            try {
+                km = Integer.parseInt(textoKm);
+                if (km < 0) {
+                    mensaje = "Error: Los kilómetros deben ser mayores a 0.";
+                    System.err.println(mensaje);
+                    throw new IllegalArgumentException(mensaje); // No hay km negativos
+                }
+            } catch (NumberFormatException e) {
+                mensaje = "Error: los kilómetros debe introducir un número entero (tipo dato Long).";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
+            }
+
+            // Llamar al manejador para generar la lista de coches
+            List<Coche> lista = manejador.consultarCochesPorKilometros(km);
+
+            // Construir el listado de coches
+            StringBuilder sb = new StringBuilder();
+            sb.append("Vehículos con menos de ").append(km).append(" km:\n");
+            sb.append("==============================================\n");
+
+            if (lista.isEmpty()) {
+                sb.append("No se han encontrado coches que cumplan el criterio.");
+            } else {
+                for (Coche c : lista) {
+                    sb.append(String.format("- %s %s (%s) | Km: %d\n",
+                            c.getMarca(), c.getModelo(), c.getMatricula(), c.getKms()));
+                }
+            }
+
+            // Volcado de datos al JTextArea y resetear scroll
+            jTextAreaListadoCochesKmRecorridos.setText(sb.toString());
+            jTextAreaListadoCochesKmRecorridos.setCaretPosition(0);
+
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de datos", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al consultar: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonMostrarCochesKmRecorridosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -651,18 +1129,32 @@ public class InterfazGrafica extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEliminarConcesionario;
     private javax.swing.JButton jButtonGuardarConcesionario;
+    private javax.swing.JButton jButtonLimpiarCoches;
+    private javax.swing.JButton jButtonLimpiarConcesionarios;
+    private javax.swing.JButton jButtonMostrarCoches;
+    private javax.swing.JButton jButtonMostrarCochesKmRecorridos;
+    private javax.swing.JButton jButtonMostrarConcesionarios;
     private javax.swing.JButton jButtonRegistrarCoche;
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JButton jButtonSuprimirCoche;
-    private javax.swing.JComboBox<Coche> jComboBoxCoches;
+    private javax.swing.JComboBox<Coche> jComboBoxBorrarCoche;
+    private javax.swing.JComboBox<Concesionario> jComboBoxBorrarConcesionario;
     private javax.swing.JComboBox<Concesionario> jComboBoxConcesionario;
+    private javax.swing.JComboBox<Concesionario> jComboBoxConcesionarioOrdenarCoche;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -672,10 +1164,22 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSpinner jSpinnerNumTrab;
+    private javax.swing.JTextArea jTextAreaListadoCoches;
+    private javax.swing.JTextArea jTextAreaListadoCochesKmRecorridos;
+    private javax.swing.JTextArea jTextAreaListadoConcesionarios;
     private javax.swing.JTextField jTextFieldCif;
     private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldKms;
+    private javax.swing.JTextField jTextFieldKmsRecorridos;
     private javax.swing.JTextField jTextFieldMarca;
     private javax.swing.JTextField jTextFieldMatricula;
     private javax.swing.JTextField jTextFieldModelo;

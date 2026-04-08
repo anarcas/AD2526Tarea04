@@ -6,7 +6,7 @@ package ad04_naranjo_antonio;
 
 /**
  *
- * @author anaranjo
+ * @author Antonio Naranjo Castillo
  */
 public class Coche {
 
@@ -77,7 +77,7 @@ public class Coche {
 
     @Override
     public String toString() {
-        return this.getMatricula() + " - " + this.getMarca() + " " + this.getModelo();
+        return this.matricula + " - " + this.marca + " " + this.modelo;
     }
 
 }

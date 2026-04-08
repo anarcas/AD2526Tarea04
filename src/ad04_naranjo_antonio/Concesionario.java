@@ -6,7 +6,7 @@ package ad04_naranjo_antonio;
 
 /**
  *
- * @author anaranjo
+ * @author Antonio Naranjo Castillo
  */
 public class Concesionario {
 
@@ -86,7 +86,7 @@ public class Concesionario {
 
     @Override
     public String toString() {
-        return "CIF: " + this.getCif() + " -> " + this.getNombre() + " (" + this.getProvincia() + ")";
+        return this.nombre + " - " + this.provincia + " (" + this.cif + ")";
     }
 
 }
