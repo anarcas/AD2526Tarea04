@@ -86,7 +86,19 @@ public class Concesionario {
 
     @Override
     public String toString() {
-        return this.nombre + " - " + this.provincia + " (" + this.cif + ")";
+        return String.format("%s | CIF: %s",
+                this.nombre,
+                this.cif);
+    }
+
+    public String toStringCompleto() {
+        return String.format("%s | CIF: %s | Dirección: %s | Provincia: %s | Teléfono: %s | Nº Trabajadores: %d",
+                this.nombre,
+                this.cif,
+                this.direccion,
+                this.provincia,
+                this.telefono,
+                this.numTrabajadores);
     }
 
 }

@@ -77,7 +77,27 @@ public class Coche {
 
     @Override
     public String toString() {
-        return this.matricula + " - " + this.marca + " " + this.modelo;
+        return String.format("%s %s | Matrícula: %s | Concesionario: %s",
+                this.marca,
+                this.modelo,
+                this.matricula,
+                this.concesionario.getNombre());
+    }
+
+    public String toStringSimplificadoKms() {
+        return String.format("%s %s | Matrícula: %s | Kilómetros: %d",
+                this.marca,
+                this.modelo,
+                this.matricula,
+                this.kms);
+    }
+
+    public String toStringSimplificadoPrecio() {
+        return String.format("%s %s | Matrícula: %s | Precio: %.2f €",
+                this.marca,
+                this.modelo,
+                this.matricula,
+                this.precio);
     }
 
 }

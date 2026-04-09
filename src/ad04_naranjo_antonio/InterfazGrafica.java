@@ -22,6 +22,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
      * Creates new form AD04_ANC2526_JFrame
      */
     public InterfazGrafica() {
+
         // Se inician los componentes de la interfaz
         initComponents();
         // Se ajusta el tamaño de la ventana al contenido
@@ -30,20 +31,30 @@ public class InterfazGrafica extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         // Se inica el manejador de la base de datos solo  una vez al arrancar la interfaz
         manejador = new ManejadorBaseDatos(this.nombreBaseDatos);
+        
+        // Solo cargamos si la base de datos está vacía
+        if (manejador.consultarConcesionariosOrdenados().isEmpty()) {
+            manejador.cargarDatosPrueba();
+            System.out.println("Base de datos inicializada por primera vez.");
+        } else {
+            System.out.println("La base de datos ya contiene datos, omitiendo carga inicial.");
+        }
+        
         // Cargamos el combo inicial
         rellenarComboConcesionario(jComboBoxConcesionario);
         rellenarComboConcesionario(jComboBoxBorrarConcesionario);
         rellenarComboConcesionario(jComboBoxConcesionarioOrdenarCoche);
         rellenarComboBorrarCoches();
+        rellenarComboMarcasCoches();
     }
 
     // Método para rellenar el ComboBox de concesionarios
     private void rellenarComboConcesionario(JComboBox<Concesionario> combo) {
         // Limpiar el combo si tenía datos previos
         combo.removeAllItems();
-        // Obtener la lista de objetos de la clase Concesinarios
+        // Obtener la listaMarcas de objetos de la clase Concesinarios
         List<Concesionario> lista = manejador.consultarConcesionarios();
-        // Alimentar el combo con la lista de objetos Concesionarios
+        // Alimentar el combo con la listaMarcas de objetos Concesionarios
         for (Concesionario c : lista) {
             combo.addItem(c);
         }
@@ -53,11 +64,23 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private void rellenarComboBorrarCoches() {
         // Limpiar el combo si tenía datos previos
         jComboBoxBorrarCoche.removeAllItems();
-        // Obtener la lista de objetos de la clase Coche
+        // Obtener la listaMarcas de objetos de la clase Coche
         List<Coche> lista = manejador.consultarCoches();
-        // Alimentar el combo con la lista de objetos Coche
+        // Alimentar el combo con la listaMarcas de objetos Coche
         for (Coche c : lista) {
             jComboBoxBorrarCoche.addItem(c);
+        }
+    }
+
+    // Método para rellenar el ComboBox de valores únicos de marcas de coches
+    private void rellenarComboMarcasCoches() {
+        // Limpiar el combo si tenía datos previos
+        jComboBoxMarcasCoches.removeAllItems();
+        // Obtener el listado de marcas únicas de los coches
+        List<String> listaMarcas = manejador.consultarMarcaCocheValoresUnicos(manejador.consultarCoches());
+        // Alimentar el combo con la listaMarcas de marcas únicas
+        for (String marca : listaMarcas) {
+            jComboBoxMarcasCoches.addItem(marca);
         }
     }
 
@@ -170,8 +193,15 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextAreaListadoCochesKmRecorridos = new javax.swing.JTextArea();
         jTextFieldKmsRecorridos = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jButtonAplicarDescuento = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextAreaListadoCochesDescuento = new javax.swing.JTextArea();
+        jComboBoxMarcasCoches = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("CONCESIONARIOS & COCHES - Base de datos orientada a objetos usando db4o ");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -506,10 +536,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonSalir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(jButtonSalir))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -529,6 +558,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoConcesionarios.setEditable(false);
         jTextAreaListadoConcesionarios.setColumns(20);
+        jTextAreaListadoConcesionarios.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
         jTextAreaListadoConcesionarios.setRows(5);
         jScrollPane1.setViewportView(jTextAreaListadoConcesionarios);
 
@@ -538,13 +568,14 @@ public class InterfazGrafica extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonMostrarConcesionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButtonMostrarConcesionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,9 +584,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jButtonMostrarConcesionarios))
-                .addGap(4, 4, 4)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -575,6 +606,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoCoches.setEditable(false);
         jTextAreaListadoCoches.setColumns(20);
+        jTextAreaListadoCoches.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
         jTextAreaListadoCoches.setRows(5);
         jScrollPane2.setViewportView(jTextAreaListadoCoches);
 
@@ -584,14 +616,15 @@ public class InterfazGrafica extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jComboBoxConcesionarioOrdenarCoche, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonMostrarCoches, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jComboBoxConcesionarioOrdenarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonMostrarCoches, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -602,9 +635,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxConcesionarioOrdenarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonMostrarCoches))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -624,6 +657,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoCochesKmRecorridos.setEditable(false);
         jTextAreaListadoCochesKmRecorridos.setColumns(20);
+        jTextAreaListadoCochesKmRecorridos.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
         jTextAreaListadoCochesKmRecorridos.setRows(5);
         jScrollPane3.setViewportView(jTextAreaListadoCochesKmRecorridos);
 
@@ -638,15 +672,20 @@ public class InterfazGrafica extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel21)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonMostrarCochesKmRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel21)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonMostrarCochesKmRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,8 +698,59 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel22.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel22.setText("Rebajar un 10% el precio de todos los coches de una marca (EJ. 8)");
+
+        jButtonAplicarDescuento.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonAplicarDescuento.setText("Aplicar descuento");
+        jButtonAplicarDescuento.setToolTipText("Aplicar descuento al precio de una marca concreta de coches");
+        jButtonAplicarDescuento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAplicarDescuentoActionPerformed(evt);
+            }
+        });
+
+        jTextAreaListadoCochesDescuento.setEditable(false);
+        jTextAreaListadoCochesDescuento.setColumns(20);
+        jTextAreaListadoCochesDescuento.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
+        jTextAreaListadoCochesDescuento.setRows(5);
+        jScrollPane4.setViewportView(jTextAreaListadoCochesDescuento);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(jComboBoxMarcasCoches, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonAplicarDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel22)
+                .addGap(14, 14, 14)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxMarcasCoches, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAplicarDescuento))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -669,43 +759,45 @@ public class InterfazGrafica extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 175, Short.MAX_VALUE))))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();
@@ -846,6 +938,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Vehículo con matrícula " + matricula + " registrado correctamente.");
             rellenarComboBorrarCoches();
+            rellenarComboMarcasCoches();
             limpiarCamposCoche();
 
         } catch (IllegalArgumentException ex) {
@@ -933,6 +1026,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
                 // Limpiar los campos del panel de coches
                 rellenarComboBorrarCoches();
+                rellenarComboMarcasCoches();
                 limpiarCamposCoche();
             }
 
@@ -962,7 +1056,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private void jButtonMostrarConcesionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarConcesionariosActionPerformed
         // TODO add your handling code here:
 
-        // Obtener la lista ordenada desde el objeto manejador
+        // Obtener la listaMarcas ordenada desde el objeto manejador
         List<Concesionario> lista = manejador.consultarConcesionariosOrdenados();
 
         // Se hace uso de un objeto StringBuilder para construir el texto que se mostrará en una etiqueta JLabel
@@ -971,7 +1065,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         sb.append("=== LISTADO DE CONCESIONARIOS (Ordenados por nombre) ===\n\n");
         // Se construye el cuerpo del texto
         for (Concesionario c : lista) {
-            sb.append("* ").append(c.toString()).append("\n");
+            sb.append("- ").append(c.toStringCompleto()).append("\n");
         }
 
         // Se muestra el resultado
@@ -989,20 +1083,20 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         try {
             // Obtenemos el concesionario del ComboBox
-            Concesionario conce = (Concesionario) jComboBoxConcesionarioOrdenarCoche.getSelectedItem();
+            Concesionario concesionario = (Concesionario) jComboBoxConcesionarioOrdenarCoche.getSelectedItem();
 
-            if (conce == null) {
+            if (concesionario == null) {
                 mensaje = "Error: Seleccione un concesionario primero.";
                 System.err.println(mensaje);
                 throw new IllegalArgumentException(mensaje);
             }
 
-            // Se construye la lista de coches acorde a la consulta por medio del objeto manejador
-            List<Coche> lista = manejador.consultarCochesPorConcesionarioOrdenados(conce);
+            // Se construye la listaMarcas de coches acorde a la consulta por medio del objeto manejador
+            List<Coche> lista = manejador.consultarCochesPorConcesionarioOrdenados(concesionario);
 
             // Se construye el listado
             StringBuilder sb = new StringBuilder();
-            sb.append("COCHES EN: ").append(conce.getNombre()).append("\n");
+            sb.append("COCHES EN: ").append(concesionario.getNombre()).append("\n");
             sb.append("Ordenados por precio (Ascendente)\n");
             sb.append("--------------------------------------------------\n");
 
@@ -1010,8 +1104,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 sb.append("No hay coches registrados en este concesionario.");
             } else {
                 for (Coche coche : lista) {
-                    sb.append(String.format("- %s %s | Precio: %.2f € | Matrícula: %s | Distancia recorrida: %d kms\n",
-                            coche.getMarca(), coche.getModelo(), coche.getPrecio(), coche.getMatricula(),coche.getKms()));
+                    sb.append("- ").append(coche.toStringSimplificadoPrecio()).append("\n");
                 }
             }
 
@@ -1062,7 +1155,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 throw new IllegalArgumentException(mensaje);
             }
 
-            // Llamar al manejador para generar la lista de coches
+            // Llamar al manejador para generar la listaMarcas de coches
             List<Coche> lista = manejador.consultarCochesPorKilometros(km);
 
             // Construir el listado de coches
@@ -1073,9 +1166,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
             if (lista.isEmpty()) {
                 sb.append("No se han encontrado coches que cumplan el criterio.");
             } else {
-                for (Coche c : lista) {
-                    sb.append(String.format("- %s %s (%s) | Km: %d\n",
-                            c.getMarca(), c.getModelo(), c.getMatricula(), c.getKms()));
+                for (Coche coche : lista) {
+                    sb.append("- ").append(coche.toStringSimplificadoKms()).append("\n");
                 }
             }
 
@@ -1089,6 +1181,64 @@ public class InterfazGrafica extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al consultar: " + ex.getMessage());
         }
     }//GEN-LAST:event_jButtonMostrarCochesKmRecorridosActionPerformed
+
+    private void jButtonAplicarDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAplicarDescuentoActionPerformed
+        // TODO add your handling code here:
+
+        // Variable para almacenar el mensaje de salida
+        String mensaje;
+
+        try {
+            // Obtenemos la marca del vehículo del ComboBox
+            String marca = (String) jComboBoxMarcasCoches.getSelectedItem();
+
+            if (marca == null) {
+                mensaje = "Error: Seleccione una marca primero.";
+                System.err.println(mensaje);
+                throw new IllegalArgumentException(mensaje);
+            }
+
+            // Confirmación de seguridad
+            int respuesta = JOptionPane.showConfirmDialog(this,
+                    "¿Desea aplicar un 10% de descuento a todos los " + marca + "?",
+                    "Confirmar", JOptionPane.YES_NO_OPTION);
+
+            if (respuesta == JOptionPane.YES_OPTION) {
+                // Se construye la lista de marcas de coches acorde a la consulta por medio del objeto manejador y se aplica el descuento del 10%
+                List<Coche> listaActualizada = manejador.aplicarDescuentoPrecioCoche(10.0, marca);
+
+                // Se construye el listado
+                StringBuilder sb = new StringBuilder();
+                sb.append("DESCUENTOS aplicados a la marca: ").append(marca).append("\n");
+                sb.append("--------------------------------------------------\n");
+
+                if (listaActualizada.isEmpty()) {
+                    sb.append("No se encontraron coches de esta marca.");
+                } else {
+                    for (Coche c : listaActualizada) {
+                        // Se añade al objeto StringBuilder
+                        sb.append("- ").append(c.toStringSimplificadoPrecio()).append("\n");
+                    }
+                    //JOptionPane.showMessageDialog(this, "Precios actualizados con éxito.");
+                }
+
+                // Mostrar listado en el área de texto
+                jTextAreaListadoCochesDescuento.setText(sb.toString());
+                jTextAreaListadoCochesDescuento.setCaretPosition(0);
+            }
+
+        } catch (IllegalArgumentException ex) {
+            // Se capta el error de validación
+            mensaje = "Error de validación: " + ex.getMessage();
+            System.err.println(mensaje);
+            JOptionPane.showMessageDialog(this, mensaje, "Faltan datos", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            // Captar errores inesperados
+            mensaje = "Error en la consulta: " + ex.getMessage();
+            System.err.println(mensaje);
+            JOptionPane.showMessageDialog(this, "Error en la consulta: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonAplicarDescuentoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1127,6 +1277,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAplicarDescuento;
     private javax.swing.JButton jButtonEliminarConcesionario;
     private javax.swing.JButton jButtonGuardarConcesionario;
     private javax.swing.JButton jButtonLimpiarCoches;
@@ -1141,6 +1292,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JComboBox<Concesionario> jComboBoxBorrarConcesionario;
     private javax.swing.JComboBox<Concesionario> jComboBoxConcesionario;
     private javax.swing.JComboBox<Concesionario> jComboBoxConcesionarioOrdenarCoche;
+    private javax.swing.JComboBox<String> jComboBoxMarcasCoches;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1155,6 +1307,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1169,11 +1322,14 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSpinner jSpinnerNumTrab;
     private javax.swing.JTextArea jTextAreaListadoCoches;
+    private javax.swing.JTextArea jTextAreaListadoCochesDescuento;
     private javax.swing.JTextArea jTextAreaListadoCochesKmRecorridos;
     private javax.swing.JTextArea jTextAreaListadoConcesionarios;
     private javax.swing.JTextField jTextFieldCif;
