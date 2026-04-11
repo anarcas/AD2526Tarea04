@@ -9,8 +9,23 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
+ * Clase para implementar una interfaz gráfica presentación de la aplicación de
+ * gestión de concesionarios.
+ * <p>
+ * Esta clase extiende de {@link javax.swing.JFrame} para proporcionar una
+ * interfaz gráfica de usuario (GUI) completa. Gestiona la interacción con el
+ * usuario mediante el manejo de eventos de Swing, permitiendo la visualización,
+ * filtrado y modificación de datos almacenados en la base de datos orientada a
+ * objetos db4o.</p>
+ * * <p>
+ * Se comunica directamente con la clase {@link ManejadorBaseDatos} para separar
+ * la lógica de negocio de la visualización.</p>
  *
- * @author Antonio Naranjo Castillo
+ * @author Antonio Naranjo Castillo (DAM - Acceso a Datos)
+ * @version 1.0 (Tarea 04 - BD Objeto-Relacionales y Orientada a Objetos)
+ * @since 11/04/2026
+ * @see javax.swing.JFrame
+ * @see ManejadorBaseDatos
  */
 public class InterfazGrafica extends javax.swing.JFrame {
 
@@ -18,9 +33,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private final ManejadorBaseDatos manejador;
     private final String nombreBaseDatos = "concesionarios";
 
-    /**
-     * Creates new form AD04_ANC2526_JFrame
-     */
+    // Método constructor de la interfaz gráfica objeto JFrame
     public InterfazGrafica() {
 
         // Se inician los componentes de la interfaz
@@ -31,16 +44,17 @@ public class InterfazGrafica extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         // Se inica el manejador de la base de datos solo  una vez al arrancar la interfaz
         manejador = new ManejadorBaseDatos(this.nombreBaseDatos);
-        
+
+        // Carga de datos iniciales de la base de objetos db4o
         // Solo cargamos si la base de datos está vacía
         if (manejador.consultarConcesionariosOrdenados().isEmpty()) {
             manejador.cargarDatosPrueba();
             System.out.println("Base de datos inicializada por primera vez.");
         } else {
-            System.out.println("La base de datos ya contiene datos, omitiendo carga inicial.");
+            System.out.println("La base de datos ya contiene datos, se omite la carga inicial.");
         }
-        
-        // Cargamos el combo inicial
+
+        // Cargamos los objetos JComboBox inicialmente
         rellenarComboConcesionario(jComboBoxConcesionario);
         rellenarComboConcesionario(jComboBoxBorrarConcesionario);
         rellenarComboConcesionario(jComboBoxConcesionarioOrdenarCoche);
@@ -48,7 +62,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         rellenarComboMarcasCoches();
     }
 
-    // Método para rellenar el ComboBox de concesionarios
+    // Método para rellenar el objeto JComboBox del panel concesionarios
     private void rellenarComboConcesionario(JComboBox<Concesionario> combo) {
         // Limpiar el combo si tenía datos previos
         combo.removeAllItems();
@@ -60,31 +74,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         }
     }
 
-    // Método para rellenar el ComboBox de coches
-    private void rellenarComboBorrarCoches() {
-        // Limpiar el combo si tenía datos previos
-        jComboBoxBorrarCoche.removeAllItems();
-        // Obtener la listaMarcas de objetos de la clase Coche
-        List<Coche> lista = manejador.consultarCoches();
-        // Alimentar el combo con la listaMarcas de objetos Coche
-        for (Coche c : lista) {
-            jComboBoxBorrarCoche.addItem(c);
-        }
-    }
-
-    // Método para rellenar el ComboBox de valores únicos de marcas de coches
-    private void rellenarComboMarcasCoches() {
-        // Limpiar el combo si tenía datos previos
-        jComboBoxMarcasCoches.removeAllItems();
-        // Obtener el listado de marcas únicas de los coches
-        List<String> listaMarcas = manejador.consultarMarcaCocheValoresUnicos(manejador.consultarCoches());
-        // Alimentar el combo con la listaMarcas de marcas únicas
-        for (String marca : listaMarcas) {
-            jComboBoxMarcasCoches.addItem(marca);
-        }
-    }
-
-    // Método para limpiar los campos de texto del panel concesionario
+    // Método para limpiar los objetos JTextField del panel concesionarios
     private void limpiarCamposConcesionario() {
         jTextFieldCif.setText("");
         jTextFieldNombre.setText("");
@@ -97,7 +87,31 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldCif.requestFocus();
     }
 
-    // Método para limpiar los campos de texto del panel coches
+    // Método para rellenar el objeto JCombox del panel coches
+    private void rellenarComboBorrarCoches() {
+        // Limpiar el combo si tenía datos previos
+        jComboBoxBorrarCoche.removeAllItems();
+        // Obtener la listaMarcas de objetos de la clase Coche
+        List<Coche> lista = manejador.consultarCoches();
+        // Alimentar el combo con la listaMarcas de objetos Coche
+        for (Coche c : lista) {
+            jComboBoxBorrarCoche.addItem(c);
+        }
+    }
+
+    // Método para rellenar el objeto JComboBox de valores únicos de marcas de coches
+    private void rellenarComboMarcasCoches() {
+        // Limpiar el combo si tenía datos previos
+        jComboBoxMarcaCoche.removeAllItems();
+        // Obtener el listado de marcas únicas de los coches
+        List<String> listaMarcas = manejador.consultarMarcaCocheValoresUnicos(manejador.consultarCoches());
+        // Alimentar el combo con la listaMarcas de marcas únicas
+        for (String marca : listaMarcas) {
+            jComboBoxMarcaCoche.addItem(marca);
+        }
+    }
+
+    // Método para limpiar los objetos JTextField del panel coches
     private void limpiarCamposCoche() {
         jTextFieldMatricula.setText("");
         jTextFieldMarca.setText("");
@@ -182,23 +196,23 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextAreaListadoConcesionarios = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        jButtonMostrarCoches = new javax.swing.JButton();
+        jButtonMostrarCochesPorPrecio = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextAreaListadoCoches = new javax.swing.JTextArea();
+        jTextAreaListadoCochesPorConcesionario = new javax.swing.JTextArea();
         jComboBoxConcesionarioOrdenarCoche = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        jButtonMostrarCochesKmRecorridos = new javax.swing.JButton();
+        jButtonMostrarCochesPorKms = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextAreaListadoCochesKmRecorridos = new javax.swing.JTextArea();
+        jTextAreaListadoCochesPorKms = new javax.swing.JTextArea();
         jTextFieldKmsRecorridos = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jButtonAplicarDescuento = new javax.swing.JButton();
+        jButtonAplicarDescuentoCoche = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextAreaListadoCochesDescuento = new javax.swing.JTextArea();
-        jComboBoxMarcasCoches = new javax.swing.JComboBox<>();
+        jTextAreaListadoCochesPorMarca = new javax.swing.JTextArea();
+        jComboBoxMarcaCoche = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CONCESIONARIOS & COCHES - Base de datos orientada a objetos usando db4o ");
@@ -210,7 +224,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
         jLabel1.setText("REGISTRAR Concesionarios (EJ. 1)");
 
@@ -280,10 +294,10 @@ public class InterfazGrafica extends javax.swing.JFrame {
                             .addComponent(jTextFieldDireccion)
                             .addComponent(jTextFieldProvincia)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldCif, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinnerNumTrab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextFieldCif, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                    .addComponent(jSpinnerNumTrab))
                                 .addGap(0, 111, Short.MAX_VALUE))
                             .addComponent(jTextFieldNombre)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -331,7 +345,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 255));
         jLabel8.setText("REGISTRAR Coches (EJ. 3)");
 
@@ -356,6 +370,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jTextFieldKms.setToolTipText("Tipo dato Long");
 
         jTextFieldPrecio.setToolTipText("Tipo dato Double");
+
+        jComboBoxConcesionario.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
 
         jButtonRegistrarCoche.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButtonRegistrarCoche.setText("Registrar");
@@ -448,13 +464,17 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel15.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 0, 255));
         jLabel15.setText("ELIMINAR OBJETOS de la base de objetos db4o (EJ. 2; 4)");
 
         jLabel16.setText("Concesionarios:");
 
         jLabel17.setText("Coches:");
+
+        jComboBoxBorrarCoche.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+
+        jComboBoxBorrarConcesionario.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
 
         jButtonEliminarConcesionario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButtonEliminarConcesionario.setText("Eliminar");
@@ -543,7 +563,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel18.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(0, 0, 255));
         jLabel18.setText("MOSTRAR todos los concesionarios ordenados por nombre (EJ. 5)");
 
@@ -558,7 +578,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoConcesionarios.setEditable(false);
         jTextAreaListadoConcesionarios.setColumns(20);
-        jTextAreaListadoConcesionarios.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
+        jTextAreaListadoConcesionarios.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jTextAreaListadoConcesionarios.setRows(5);
         jScrollPane1.setViewportView(jTextAreaListadoConcesionarios);
 
@@ -584,31 +604,33 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jButtonMostrarConcesionarios))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel19.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(0, 0, 255));
         jLabel19.setText("Mostrar todos los coches de un concesionario, ordenados por precio (EJ. 6)");
 
-        jButtonMostrarCoches.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButtonMostrarCoches.setText("Mostrar");
-        jButtonMostrarCoches.setToolTipText("Mostrar lista ordenada de Concesionarios");
-        jButtonMostrarCoches.addActionListener(new java.awt.event.ActionListener() {
+        jButtonMostrarCochesPorPrecio.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonMostrarCochesPorPrecio.setText("Mostrar");
+        jButtonMostrarCochesPorPrecio.setToolTipText("Mostrar lista ordenada de Concesionarios");
+        jButtonMostrarCochesPorPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonMostrarCochesActionPerformed(evt);
+                jButtonMostrarCochesPorPrecioActionPerformed(evt);
             }
         });
 
-        jTextAreaListadoCoches.setEditable(false);
-        jTextAreaListadoCoches.setColumns(20);
-        jTextAreaListadoCoches.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
-        jTextAreaListadoCoches.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaListadoCoches);
+        jTextAreaListadoCochesPorConcesionario.setEditable(false);
+        jTextAreaListadoCochesPorConcesionario.setColumns(20);
+        jTextAreaListadoCochesPorConcesionario.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextAreaListadoCochesPorConcesionario.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaListadoCochesPorConcesionario);
+
+        jComboBoxConcesionarioOrdenarCoche.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -622,7 +644,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jComboBoxConcesionarioOrdenarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonMostrarCoches, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonMostrarCochesPorPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -634,7 +656,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxConcesionarioOrdenarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonMostrarCoches))
+                    .addComponent(jButtonMostrarCochesPorPrecio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                 .addContainerGap())
@@ -642,24 +664,24 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel20.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(0, 0, 255));
         jLabel20.setText("Mostrar todos los coches que hayan recorrido una distancia dada (EJ. 7)");
 
-        jButtonMostrarCochesKmRecorridos.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButtonMostrarCochesKmRecorridos.setText("Mostrar");
-        jButtonMostrarCochesKmRecorridos.setToolTipText("Mostrar lista ordenada de Concesionarios");
-        jButtonMostrarCochesKmRecorridos.addActionListener(new java.awt.event.ActionListener() {
+        jButtonMostrarCochesPorKms.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonMostrarCochesPorKms.setText("Mostrar");
+        jButtonMostrarCochesPorKms.setToolTipText("Mostrar lista ordenada de Concesionarios");
+        jButtonMostrarCochesPorKms.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonMostrarCochesKmRecorridosActionPerformed(evt);
+                jButtonMostrarCochesPorKmsActionPerformed(evt);
             }
         });
 
-        jTextAreaListadoCochesKmRecorridos.setEditable(false);
-        jTextAreaListadoCochesKmRecorridos.setColumns(20);
-        jTextAreaListadoCochesKmRecorridos.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
-        jTextAreaListadoCochesKmRecorridos.setRows(5);
-        jScrollPane3.setViewportView(jTextAreaListadoCochesKmRecorridos);
+        jTextAreaListadoCochesPorKms.setEditable(false);
+        jTextAreaListadoCochesPorKms.setColumns(20);
+        jTextAreaListadoCochesPorKms.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextAreaListadoCochesPorKms.setRows(5);
+        jScrollPane3.setViewportView(jTextAreaListadoCochesPorKms);
 
         jTextFieldKmsRecorridos.setToolTipText("Tipo dato Long");
 
@@ -672,20 +694,16 @@ public class InterfazGrafica extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3)
-                        .addContainerGap())
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel21)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonMostrarCochesKmRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonMostrarCochesPorKms, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -694,7 +712,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonMostrarCochesKmRecorridos)
+                    .addComponent(jButtonMostrarCochesPorKms)
                     .addComponent(jTextFieldKmsRecorridos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -704,24 +722,26 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel22.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(0, 0, 255));
         jLabel22.setText("Rebajar un 10% el precio de todos los coches de una marca (EJ. 8)");
 
-        jButtonAplicarDescuento.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButtonAplicarDescuento.setText("Aplicar descuento");
-        jButtonAplicarDescuento.setToolTipText("Aplicar descuento al precio de una marca concreta de coches");
-        jButtonAplicarDescuento.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAplicarDescuentoCoche.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButtonAplicarDescuentoCoche.setText("Aplicar descuento");
+        jButtonAplicarDescuentoCoche.setToolTipText("Aplicar descuento al precio de una marca concreta de coches");
+        jButtonAplicarDescuentoCoche.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAplicarDescuentoActionPerformed(evt);
+                jButtonAplicarDescuentoCocheActionPerformed(evt);
             }
         });
 
-        jTextAreaListadoCochesDescuento.setEditable(false);
-        jTextAreaListadoCochesDescuento.setColumns(20);
-        jTextAreaListadoCochesDescuento.setFont(new java.awt.Font("JetBrains Mono NL", 0, 12)); // NOI18N
-        jTextAreaListadoCochesDescuento.setRows(5);
-        jScrollPane4.setViewportView(jTextAreaListadoCochesDescuento);
+        jTextAreaListadoCochesPorMarca.setEditable(false);
+        jTextAreaListadoCochesPorMarca.setColumns(20);
+        jTextAreaListadoCochesPorMarca.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextAreaListadoCochesPorMarca.setRows(5);
+        jScrollPane4.setViewportView(jTextAreaListadoCochesPorMarca);
+
+        jComboBoxMarcaCoche.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -731,12 +751,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(jComboBoxMarcasCoches, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxMarcaCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonAplicarDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButtonAplicarDescuentoCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -746,8 +766,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 .addComponent(jLabel22)
                 .addGap(14, 14, 14)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxMarcasCoches, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAplicarDescuento))
+                    .addComponent(jComboBoxMarcaCoche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAplicarDescuentoCoche))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                 .addContainerGap())
@@ -788,16 +808,16 @@ public class InterfazGrafica extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(9, 9, 9)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(15, 15, 15)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -1075,7 +1095,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonMostrarConcesionariosActionPerformed
 
-    private void jButtonMostrarCochesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarCochesActionPerformed
+    private void jButtonMostrarCochesPorPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarCochesPorPrecioActionPerformed
         // TODO add your handling code here:
 
         // Variable para almacenar el mensaje de salida
@@ -1109,8 +1129,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
             }
 
             // Mostrar listado en el área de texto
-            jTextAreaListadoCoches.setText(sb.toString());
-            jTextAreaListadoCoches.setCaretPosition(0);
+            jTextAreaListadoCochesPorConcesionario.setText(sb.toString());
+            jTextAreaListadoCochesPorConcesionario.setCaretPosition(0);
 
         } catch (IllegalArgumentException ex) {
             // Se capta el error de validación
@@ -1123,9 +1143,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
             System.err.println(mensaje);
             JOptionPane.showMessageDialog(this, "Error en la consulta: " + ex.getMessage());
         }
-    }//GEN-LAST:event_jButtonMostrarCochesActionPerformed
+    }//GEN-LAST:event_jButtonMostrarCochesPorPrecioActionPerformed
 
-    private void jButtonMostrarCochesKmRecorridosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarCochesKmRecorridosActionPerformed
+    private void jButtonMostrarCochesPorKmsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarCochesPorKmsActionPerformed
         // TODO add your handling code here:
 
         // Variable para almacenar el mensaje de salida
@@ -1172,25 +1192,26 @@ public class InterfazGrafica extends javax.swing.JFrame {
             }
 
             // Volcado de datos al JTextArea y resetear scroll
-            jTextAreaListadoCochesKmRecorridos.setText(sb.toString());
-            jTextAreaListadoCochesKmRecorridos.setCaretPosition(0);
+            jTextAreaListadoCochesPorKms.setText(sb.toString());
+            jTextAreaListadoCochesPorKms.setCaretPosition(0);
 
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de datos", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al consultar: " + ex.getMessage());
         }
-    }//GEN-LAST:event_jButtonMostrarCochesKmRecorridosActionPerformed
+    }//GEN-LAST:event_jButtonMostrarCochesPorKmsActionPerformed
 
-    private void jButtonAplicarDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAplicarDescuentoActionPerformed
+    private void jButtonAplicarDescuentoCocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAplicarDescuentoCocheActionPerformed
         // TODO add your handling code here:
 
         // Variable para almacenar el mensaje de salida
         String mensaje;
+        double descuento = 10d;
 
         try {
             // Obtenemos la marca del vehículo del ComboBox
-            String marca = (String) jComboBoxMarcasCoches.getSelectedItem();
+            String marca = (String) jComboBoxMarcaCoche.getSelectedItem();
 
             if (marca == null) {
                 mensaje = "Error: Seleccione una marca primero.";
@@ -1200,12 +1221,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
             // Confirmación de seguridad
             int respuesta = JOptionPane.showConfirmDialog(this,
-                    "¿Desea aplicar un 10% de descuento a todos los " + marca + "?",
+                    "¿Desea aplicar un " + descuento + "% de descuento a todos los " + marca + "?",
                     "Confirmar", JOptionPane.YES_NO_OPTION);
 
             if (respuesta == JOptionPane.YES_OPTION) {
                 // Se construye la lista de marcas de coches acorde a la consulta por medio del objeto manejador y se aplica el descuento del 10%
-                List<Coche> listaActualizada = manejador.aplicarDescuentoPrecioCoche(10.0, marca);
+                List<Coche> listaActualizada = manejador.aplicarDescuentoPrecioCoche(descuento, marca);
 
                 // Se construye el listado
                 StringBuilder sb = new StringBuilder();
@@ -1223,8 +1244,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 }
 
                 // Mostrar listado en el área de texto
-                jTextAreaListadoCochesDescuento.setText(sb.toString());
-                jTextAreaListadoCochesDescuento.setCaretPosition(0);
+                jTextAreaListadoCochesPorMarca.setText(sb.toString());
+                jTextAreaListadoCochesPorMarca.setCaretPosition(0);
             }
 
         } catch (IllegalArgumentException ex) {
@@ -1238,7 +1259,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
             System.err.println(mensaje);
             JOptionPane.showMessageDialog(this, "Error en la consulta: " + ex.getMessage());
         }
-    }//GEN-LAST:event_jButtonAplicarDescuentoActionPerformed
+    }//GEN-LAST:event_jButtonAplicarDescuentoCocheActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1277,13 +1298,13 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAplicarDescuento;
+    private javax.swing.JButton jButtonAplicarDescuentoCoche;
     private javax.swing.JButton jButtonEliminarConcesionario;
     private javax.swing.JButton jButtonGuardarConcesionario;
     private javax.swing.JButton jButtonLimpiarCoches;
     private javax.swing.JButton jButtonLimpiarConcesionarios;
-    private javax.swing.JButton jButtonMostrarCoches;
-    private javax.swing.JButton jButtonMostrarCochesKmRecorridos;
+    private javax.swing.JButton jButtonMostrarCochesPorKms;
+    private javax.swing.JButton jButtonMostrarCochesPorPrecio;
     private javax.swing.JButton jButtonMostrarConcesionarios;
     private javax.swing.JButton jButtonRegistrarCoche;
     private javax.swing.JButton jButtonSalir;
@@ -1292,7 +1313,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JComboBox<Concesionario> jComboBoxBorrarConcesionario;
     private javax.swing.JComboBox<Concesionario> jComboBoxConcesionario;
     private javax.swing.JComboBox<Concesionario> jComboBoxConcesionarioOrdenarCoche;
-    private javax.swing.JComboBox<String> jComboBoxMarcasCoches;
+    private javax.swing.JComboBox<String> jComboBoxMarcaCoche;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1328,9 +1349,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSpinner jSpinnerNumTrab;
-    private javax.swing.JTextArea jTextAreaListadoCoches;
-    private javax.swing.JTextArea jTextAreaListadoCochesDescuento;
-    private javax.swing.JTextArea jTextAreaListadoCochesKmRecorridos;
+    private javax.swing.JTextArea jTextAreaListadoCochesPorConcesionario;
+    private javax.swing.JTextArea jTextAreaListadoCochesPorKms;
+    private javax.swing.JTextArea jTextAreaListadoCochesPorMarca;
     private javax.swing.JTextArea jTextAreaListadoConcesionarios;
     private javax.swing.JTextField jTextFieldCif;
     private javax.swing.JTextField jTextFieldDireccion;

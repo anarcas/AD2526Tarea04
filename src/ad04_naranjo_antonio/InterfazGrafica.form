@@ -66,19 +66,19 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                      <Component id="jPanel5" pref="0" max="32767" attributes="0"/>
+                      <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="8" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -117,10 +117,10 @@
                               <Component id="jTextFieldDireccion" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextFieldProvincia" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTextFieldCif" min="-2" pref="100" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldTelefono" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
-                                      <Component id="jSpinnerNumTrab" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jTextFieldCif" pref="100" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldTelefono" alignment="0" pref="100" max="32767" attributes="0"/>
+                                      <Component id="jSpinnerNumTrab" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="111" max="32767" attributes="0"/>
                               </Group>
@@ -187,7 +187,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Arial Black" size="14" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -386,7 +386,7 @@
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Arial Black" size="14" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -450,6 +450,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxConcesionario">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Monospaced" size="12" style="0"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Concesionario&gt;"/>
           </AuxValues>
@@ -543,7 +548,7 @@
         <Component class="javax.swing.JLabel" name="jLabel15">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Arial Black" size="14" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -562,11 +567,21 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxBorrarCoche">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Monospaced" size="12" style="0"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Coche&gt;"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxBorrarConcesionario">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Monospaced" size="12" style="0"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Concesionario&gt;"/>
           </AuxValues>
@@ -675,9 +690,9 @@
                       <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonMostrarConcesionarios" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="158" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" pref="142" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -686,7 +701,7 @@
         <Component class="javax.swing.JLabel" name="jLabel18">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Arial Black" size="14" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -715,7 +730,7 @@
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="JetBrains Mono NL" size="12" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
               </Properties>
@@ -744,7 +759,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jComboBoxConcesionarioOrdenarCoche" min="-2" pref="350" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButtonMostrarCoches" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="jButtonMostrarCochesPorPrecio" min="-2" pref="150" max="-2" attributes="0"/>
                           <EmptySpace pref="255" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -760,7 +775,7 @@
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jComboBoxConcesionarioOrdenarCoche" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonMostrarCoches" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonMostrarCochesPorPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" pref="122" max="32767" attributes="0"/>
@@ -773,7 +788,7 @@
         <Component class="javax.swing.JLabel" name="jLabel19">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Arial Black" size="14" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -781,7 +796,7 @@
             <Property name="text" type="java.lang.String" value="Mostrar todos los coches de un concesionario, ordenados por precio (EJ. 6)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonMostrarCoches">
+        <Component class="javax.swing.JButton" name="jButtonMostrarCochesPorPrecio">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="1"/>
@@ -790,19 +805,19 @@
             <Property name="toolTipText" type="java.lang.String" value="Mostrar lista ordenada de Concesionarios"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMostrarCochesActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMostrarCochesPorPrecioActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextAreaListadoCoches">
+            <Component class="javax.swing.JTextArea" name="jTextAreaListadoCochesPorConcesionario">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="JetBrains Mono NL" size="12" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
               </Properties>
@@ -810,6 +825,11 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JComboBox" name="jComboBoxConcesionarioOrdenarCoche">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Monospaced" size="12" style="0"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Concesionario&gt;"/>
           </AuxValues>
@@ -831,25 +851,18 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="jScrollPane3" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel20" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldKmsRecorridos" min="-2" pref="102" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jButtonMostrarCochesKmRecorridos" min="-2" pref="150" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" max="32767" attributes="0"/>
+                      <Component id="jLabel20" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jTextFieldKmsRecorridos" min="-2" pref="102" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jButtonMostrarCochesPorKms" min="-2" pref="150" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -860,7 +873,7 @@
                   <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButtonMostrarCochesKmRecorridos" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonMostrarCochesPorKms" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextFieldKmsRecorridos" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -875,7 +888,7 @@
         <Component class="javax.swing.JLabel" name="jLabel20">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Arial Black" size="14" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -883,7 +896,7 @@
             <Property name="text" type="java.lang.String" value="Mostrar todos los coches que hayan recorrido una distancia dada (EJ. 7)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonMostrarCochesKmRecorridos">
+        <Component class="javax.swing.JButton" name="jButtonMostrarCochesPorKms">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="1"/>
@@ -892,19 +905,19 @@
             <Property name="toolTipText" type="java.lang.String" value="Mostrar lista ordenada de Concesionarios"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMostrarCochesKmRecorridosActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMostrarCochesPorKmsActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextAreaListadoCochesKmRecorridos">
+            <Component class="javax.swing.JTextArea" name="jTextAreaListadoCochesPorKms">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="JetBrains Mono NL" size="12" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
               </Properties>
@@ -939,12 +952,12 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane4" max="32767" attributes="0"/>
-                      <Component id="jLabel22" max="32767" attributes="0"/>
+                      <Component id="jLabel22" pref="767" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jComboBoxMarcasCoches" min="-2" pref="350" max="-2" attributes="0"/>
+                          <Component id="jComboBoxMarcaCoche" min="-2" pref="350" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButtonAplicarDescuento" min="-2" pref="150" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButtonAplicarDescuentoCoche" min="-2" pref="150" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -958,8 +971,8 @@
                   <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jComboBoxMarcasCoches" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonAplicarDescuento" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jComboBoxMarcaCoche" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonAplicarDescuentoCoche" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane4" pref="122" max="32767" attributes="0"/>
@@ -972,7 +985,7 @@
         <Component class="javax.swing.JLabel" name="jLabel22">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="1"/>
+              <Font name="Arial Black" size="14" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -980,7 +993,7 @@
             <Property name="text" type="java.lang.String" value="Rebajar un 10% el precio de todos los coches de una marca (EJ. 8)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonAplicarDescuento">
+        <Component class="javax.swing.JButton" name="jButtonAplicarDescuentoCoche">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="1"/>
@@ -989,26 +1002,31 @@
             <Property name="toolTipText" type="java.lang.String" value="Aplicar descuento al precio de una marca concreta de coches"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAplicarDescuentoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAplicarDescuentoCocheActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane4">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextAreaListadoCochesDescuento">
+            <Component class="javax.swing.JTextArea" name="jTextAreaListadoCochesPorMarca">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="JetBrains Mono NL" size="12" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
               </Properties>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JComboBox" name="jComboBoxMarcasCoches">
+        <Component class="javax.swing.JComboBox" name="jComboBoxMarcaCoche">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Monospaced" size="12" style="0"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

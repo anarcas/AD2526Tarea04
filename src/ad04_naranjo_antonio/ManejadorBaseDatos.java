@@ -14,12 +14,20 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Clase encargada de la gestión de la persistencia de datos mediante db4o.
+ * <p>
+ * Actúa como la capa de acceso a datos (DAO), proporcionando métodos para la
+ * inserción, consulta, actualización y borrado de objetos {@link Concesionario}
+ * y {@link Coche}. Implementa el motor de consultas SODA para realizar
+ * búsquedas filtradas en la base de datos orientada a objetos.</p>
  *
- * @author Antonio Naranjo Castillo
+ * @author Antonio Naranjo Castillo (DAM - Acceso a Datos)
+ * @version 1.0 (Tarea 04 - BD Objeto-Relacionales y Orientada a Objetos)
+ * @since 11/04/2026
  */
 public class ManejadorBaseDatos {
 
-    // Atributo
+    // Atributo objeto contenedor de la base de datos
     private final ObjectContainer db;
 
     // Método constructor
@@ -28,8 +36,66 @@ public class ManejadorBaseDatos {
         this.db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), nombreArchivo);
         System.out.println(String.format("Base de datos '%s' iniciada correctamente.", nombre));
     }
+    
+     // Método para cargar datos iniciales en la base de objetos db4o (definidos aleatoriamente para realizar la presente tarea)
+    public void cargarDatosPrueba() {
+        try {
+            // Definición de Concesionarios en Andalucía
+            // Constructor: cif, nombre, direccion, provincia, telefono, numTrabajadores
+            Concesionario c1 = new Concesionario("B41000001", "Sevilla Motor", "Av. de Jerez, 10", "Sevilla", "954123456", 12);
+            Concesionario c2 = new Concesionario("B29000002", "Costa Sol Cars", "Calle Salitre, 45", "Málaga", "952987654", 15);
+            Concesionario c3 = new Concesionario("B11000003", "Cádiz Auto", "Av. Cayetano del Toro, 5", "Cádiz", "956334455", 8);
+            Concesionario c4 = new Concesionario("B18000004", "Granada Drive", "Camino de Ronda, 120", "Granada", "958667788", 10);
+            Concesionario c5 = new Concesionario("B04000005", "Almería Wagen", "Ctra. de Ronda, 30", "Almería", "950112233", 7);
 
-    //Método para almacenar datos en la Base de Objetos.
+            // Almacenar Concesionarios
+            this.db.store(c1);
+            this.db.store(c2);
+            this.db.store(c3);
+            this.db.store(c4);
+            this.db.store(c5);
+
+            // Definición de Coches
+            // Constructor: matricula, marca, modelo, kms (Long), precio (Double), concesionario
+            // --- SEVILLA MOTOR ---
+            this.db.store(new Coche("1111 AAA", "Tesla", "Model 3", 45000L, 35000.0, c1));
+            this.db.store(new Coche("2222 BBB", "BYD", "Atto 3", 12000L, 31000.0, c1));
+            this.db.store(new Coche("3333 CCC", "MG", "MG4 Electric", 8500L, 24500.0, c1));
+            this.db.store(new Coche("4444 DDD", "Toyota", "Corolla 200h", 25000L, 28000.0, c1));
+            this.db.store(new Coche("5555 EEE", "Hyundai", "IONIQ 5", 5000L, 42000.0, c1));
+
+            // --- COSTA SOL CARS ---
+            this.db.store(new Coche("6666 FFF", "Kia", "EV6", 15000L, 39500.0, c2));
+            this.db.store(new Coche("7777 GGG", "Cupra", "Formentor", 32000L, 29000.0, c2));
+            this.db.store(new Coche("8888 HHH", "Dacia", "Sandero Stepway", 18000L, 14500.0, c2));
+            this.db.store(new Coche("9999 III", "Tesla", "Model Y", 20000L, 46000.0, c2));
+
+            // --- CÁDIZ AUTO ---
+            this.db.store(new Coche("0000 JJJ", "Renault", "Austral", 11000L, 32500.0, c3));
+            this.db.store(new Coche("1234 KKK", "Peugeot", "E-2008", 14000L, 27000.0, c3));
+            this.db.store(new Coche("5678 LLL", "Ford", "Mustang Mach-E", 9000L, 48000.0, c3));
+            this.db.store(new Coche("9012 MMM", "Volkswagen", "ID.4", 28000L, 37000.0, c3));
+
+            // --- GRANADA DRIVE ---
+            this.db.store(new Coche("3456 NNN", "MG", "ZS EV", 35000L, 22000.0, c4));
+            this.db.store(new Coche("7890 OOO", "Hyundai", "Tucson PHEV", 21000L, 34000.0, c4));
+            this.db.store(new Coche("1357 PPP", "BMW", "iX1", 4000L, 52000.0, c4));
+            this.db.store(new Coche("2468 QQQ", "Lexus", "UX 250h", 42000L, 31500.0, c4));
+
+            // --- ALMERÍA WAGEN ---
+            this.db.store(new Coche("8642 RRR", "Nissan", "Ariya", 7000L, 44000.0, c5));
+            this.db.store(new Coche("9753 SSS", "Smart", "#1", 13000L, 33000.0, c5));
+            this.db.store(new Coche("1590 TTT", "Volvo", "EX30", 2500L, 36500.0, c5));
+            this.db.store(new Coche("2601 UUU", "Polestar", "2", 19000L, 41000.0, c5));
+
+            System.out.println("Base de objetos cargada correctamente.");
+
+        } catch (Exception e) {
+            System.err.println("Error en carga de datos: " + e.getMessage());
+        }
+    }
+
+    //Método para almacenar datos en la base de objetos db4o
     public void registrarConcesionario(String cif, String nombre, String dir, String prov, String tel, Integer num) {
 
         // Variable para almacenar el mensaje de salida
@@ -81,7 +147,7 @@ public class ManejadorBaseDatos {
 
     }
 
-    //Método para mostrar objetos recuperados de la Base de Objetos
+    //Método para mostrar objetos recuperados de la base de objetos db4o
     public void mostrarConcesionarios(List<Concesionario> lista) {
         System.out.println("Número de concesionarios consultados: " + lista.size() + " concesionarios en la base de objetos.");
         for (Concesionario con : lista) {
@@ -89,13 +155,13 @@ public class ManejadorBaseDatos {
         }
     }
 
-    // Método para eliminar un concesionario
+    // Método para eliminar un concesionario definido por su clave primaria
     public void borrarConcesionario(String cif) {
         // Variable para almacenar el mensaje de salida
         String mensaje;
 
         // Se consulta a la base de objetos por el concesionario del cif indicado
-        ObjectSet res = db.queryByExample(new Concesionario(cif, null, null, null, null, null));
+        ObjectSet res = this.db.queryByExample(new Concesionario(cif, null, null, null, null, null));
         if (!res.hasNext()) {
             mensaje = "Error: No se encuentra el concesionario con CIF " + cif;
             System.err.println(mensaje);
@@ -106,21 +172,21 @@ public class ManejadorBaseDatos {
         Concesionario c = (Concesionario) res.next();
         // Se crea un prototipo de consulta para comprobar si el concesionario a borrar dispone de coches asociados
         Coche protoCoche = new Coche(null, null, null, null, null, c);
-        ObjectSet resCoches = db.queryByExample(protoCoche);
+        ObjectSet resCoches = this.db.queryByExample(protoCoche);
         if (resCoches.hasNext()) {
             mensaje = "Error: No se puede eliminar el concesionario seleccionado, tiene coches a la venta.";
             System.err.println(mensaje);
             throw new IllegalStateException(mensaje);
         } else {
             // Si no hay coches se procede al borrado del concesionario
-            db.delete(c); // Se elimina el objeto concesionario de la base de objetos
+            this.db.delete(c); // Se elimina el objeto concesionario de la base de objetos
         }
     }
 
-    // Método consulta de concesionarios ordenados
+    // Método consulta de concesionarios ordenados por nombre
     public List<Concesionario> consultarConcesionariosOrdenados() {
         // Iniciar consulta SODA
-        Query query = db.query();
+        Query query = this.db.query();
         // Establecer la clase a la que se aplica la restricción
         query.constrain(Concesionario.class);
         // Aplicar la ordenación por el campo "nombre" de forma ascendente
@@ -142,7 +208,7 @@ public class ManejadorBaseDatos {
     // Método de consulta de coches por precio de un determinado concesionario
     public List<Coche> consultarCochesPorConcesionarioOrdenados(Concesionario concesionarioSeleccionado) {
         // Se inicia la consulta SODA
-        Query query = db.query();
+        Query query = this.db.query();
 
         // Se apunta a la clase Coche
         query.constrain(Coche.class);
@@ -169,7 +235,7 @@ public class ManejadorBaseDatos {
     // Mostrar listado de coches que tengas menos de una determinada cantidad de kilómetros recorridos
     public List<Coche> consultarCochesPorKilometros(int kmMaximos) {
         // Se inicia la consulta SODA
-        Query query = db.query();
+        Query query = this.db.query();
 
         // Se restringe a la clase Coche
         query.constrain(Coche.class);
@@ -193,7 +259,7 @@ public class ManejadorBaseDatos {
     // Mostrar listado de coches de una determinada marca
     public List<Coche> consultarCochesPorMarca(String marca) {
         // Se inicia la consulta SODA
-        Query query = db.query();
+        Query query = this.db.query();
 
         // Se restringe a la clase Coche
         query.constrain(Coche.class);
@@ -214,7 +280,7 @@ public class ManejadorBaseDatos {
         return lista;
     }
 
-    // Método para aplicar descuento
+    // Método para aplicar descuento sobre el precio de venta de los vehículos de una determinada marca
     public List<Coche> aplicarDescuentoPrecioCoche(double descuento, String marca) {
         // Variabre para almacenar el nuevo importe
         double nuevoPrecio;
@@ -233,19 +299,19 @@ public class ManejadorBaseDatos {
         return lista;
     }
 
-    // Método para borrar un coche
+    // Método para borrar un coche de la base de objetos db4o
     public void borrarCoche(String matricula) {
         // Variable para almacenar el mensaje de salida
         String mensaje;
 
         // Buscar el coche por su matrícula, se crea un prototipo de consulta
         Coche proto = new Coche(matricula, null, null, null, null, null);
-        ObjectSet res = db.queryByExample(proto);
+        ObjectSet res = this.db.queryByExample(proto);
 
         if (res.hasNext()) {
             // Si existe, se recupera el objeto y se elimina
             Coche c = (Coche) res.next();
-            db.delete(c);
+            this.db.delete(c);
             mensaje = "Coche con matrícula " + matricula + " eliminado de la base de objetos.";
             System.out.println(mensaje);
         } else {
@@ -256,14 +322,14 @@ public class ManejadorBaseDatos {
         }
     }
 
-    // Método para registrar un coche
+    // Método para registrar un coche en la base de objetos db4o
     public void registrarCoche(String matricula, String marca, String modelo, Long kms, Double precio, Concesionario concesionario) {
         // Variable para almacenar el mensaje de salida
         String mensaje;
 
         // Prototipo para evitar matrículas duplicadas
         Coche protoCoche = new Coche(matricula, null, null, null, null, null);
-        ObjectSet res = db.queryByExample(protoCoche);
+        ObjectSet res = this.db.queryByExample(protoCoche);
 
         if (res.hasNext()) {
             mensaje = "Error: Ya existe un coche con matrícula " + matricula;
@@ -272,7 +338,7 @@ public class ManejadorBaseDatos {
         } else {
             // Crear y persistir el objeto. db4o guardará automáticamente la referencia al concesionario existente
             Coche nuevoCoche = new Coche(matricula, marca, modelo, kms, precio, concesionario);
-            db.store(nuevoCoche);
+            this.db.store(nuevoCoche);
         }
     }
 
@@ -296,6 +362,7 @@ public class ManejadorBaseDatos {
         return listaCoches;
     }
 
+    // Método para consultar los valores únicos de las marcas de los coches 
     public List<String> consultarMarcaCocheValoresUnicos(List<Coche> coches) {
 
         // Se declara una lista de datos String que recogerá cada valor único de la marca de los coches
@@ -313,7 +380,7 @@ public class ManejadorBaseDatos {
         return listaMarcasUnicas;
     }
 
-    //Método para mostrar objetos recuperados de la Base de Objetos
+    //Método para mostrar objetos Coche recuperados de la base de objetos db4o
     public void mostrarCoches(List<Coche> lista) {
         System.out.println("Número de coches consultados: " + lista.size() + " coches en la base de objetos.");
         for (Coche con : lista) {
@@ -321,7 +388,7 @@ public class ManejadorBaseDatos {
         }
     }
 
-    // Método cerrar base de datos
+    // Método para cerrar la base de objetos db4os
     public void cerraBaseDatos(String nombreBD) {
         if (this.db != null) {
             this.db.close();
@@ -330,61 +397,4 @@ public class ManejadorBaseDatos {
         }
     }
 
-    public void cargarDatosPrueba() {
-        try {
-            // 1. Definición de Concesionarios en Andalucía
-            // Constructor: cif, nombre, direccion, provincia, telefono, numTrabajadores
-            Concesionario c1 = new Concesionario("B41000001", "Sevilla Motor", "Av. de Jerez, 10", "Sevilla", "954123456", 12);
-            Concesionario c2 = new Concesionario("B29000002", "Costa Sol Cars", "Calle Salitre, 45", "Málaga", "952987654", 15);
-            Concesionario c3 = new Concesionario("B11000003", "Cádiz Auto", "Av. Cayetano del Toro, 5", "Cádiz", "956334455", 8);
-            Concesionario c4 = new Concesionario("B18000004", "Granada Drive", "Camino de Ronda, 120", "Granada", "958667788", 10);
-            Concesionario c5 = new Concesionario("B04000005", "Almería Wagen", "Ctra. de Ronda, 30", "Almería", "950112233", 7);
-
-            // Almacenar Concesionarios
-            db.store(c1);
-            db.store(c2);
-            db.store(c3);
-            db.store(c4);
-            db.store(c5);
-
-            // 2. Definición de Coches
-            // Constructor: matricula, marca, modelo, kms (Long), precio (Double), concesionario
-            // --- SEVILLA MOTOR ---
-            db.store(new Coche("1111AAA", "Tesla", "Model 3", 45000L, 35000.0, c1));
-            db.store(new Coche("2222BBB", "BYD", "Atto 3", 12000L, 31000.0, c1));
-            db.store(new Coche("3333CCC", "MG", "MG4 Electric", 8500L, 24500.0, c1));
-            db.store(new Coche("4444DDD", "Toyota", "Corolla 200h", 25000L, 28000.0, c1));
-            db.store(new Coche("5555EEE", "Hyundai", "IONIQ 5", 5000L, 42000.0, c1));
-
-            // --- COSTA SOL CARS ---
-            db.store(new Coche("6666FFF", "Kia", "EV6", 15000L, 39500.0, c2));
-            db.store(new Coche("7777GGG", "Cupra", "Formentor", 32000L, 29000.0, c2));
-            db.store(new Coche("8888HHH", "Dacia", "Sandero Stepway", 18000L, 14500.0, c2));
-            db.store(new Coche("9999III", "Tesla", "Model Y", 20000L, 46000.0, c2));
-
-            // --- CÁDIZ AUTO ---
-            db.store(new Coche("0000JJJ", "Renault", "Austral", 11000L, 32500.0, c3));
-            db.store(new Coche("1234KKK", "Peugeot", "E-2008", 14000L, 27000.0, c3));
-            db.store(new Coche("5678LLL", "Ford", "Mustang Mach-E", 9000L, 48000.0, c3));
-            db.store(new Coche("9012MMM", "Volkswagen", "ID.4", 28000L, 37000.0, c3));
-
-            // --- GRANADA DRIVE ---
-            db.store(new Coche("3456NNN", "MG", "ZS EV", 35000L, 22000.0, c4));
-            db.store(new Coche("7890OOO", "Hyundai", "Tucson PHEV", 21000L, 34000.0, c4));
-            db.store(new Coche("1357PPP", "BMW", "iX1", 4000L, 52000.0, c4));
-            db.store(new Coche("2468QQQ", "Lexus", "UX 250h", 42000L, 31500.0, c4));
-
-            // --- ALMERÍA WAGEN ---
-            db.store(new Coche("8642RRR", "Nissan", "Ariya", 7000L, 44000.0, c5));
-            db.store(new Coche("9753SSS", "Smart", "#1", 13000L, 33000.0, c5));
-            db.store(new Coche("1590TTT", "Volvo", "EX30", 2500L, 36500.0, c5));
-            db.store(new Coche("2601UUU", "Polestar", "2", 19000L, 41000.0, c5));
-
-            db.commit();
-            System.out.println("LOG: 5 Concesionarios y 21 Coches cargados con tipos Long y Double.");
-
-        } catch (Exception e) {
-            System.err.println("Error en carga de datos: " + e.getMessage());
-        }
-    }
 }

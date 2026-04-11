@@ -5,8 +5,13 @@
 package ad04_naranjo_antonio;
 
 /**
+ * Representa un establecimiento comercial destinado a la venta de vehículos.
+ * Esta clase gestiona la información básica del concesionario, incluyendo su
+ * identificación fiscal, ubicación y personal a cargo.
  *
- * @author Antonio Naranjo Castillo
+ * @author Antonio Naranjo Castillo (DAM - Acceso a Datos)
+ * @since 11/04/2026
+ * @version 1.0 (Tarea 04 - BD Objeto-Relacionales y Orientada a Objetos)
  */
 public class Concesionario {
 
@@ -18,6 +23,7 @@ public class Concesionario {
     private String telefono;
     private Integer numTrabajadores;
 
+    // Método constructor sin argumentos
     public Concesionario() {
         this.cif = null;
         this.nombre = null;
@@ -27,6 +33,7 @@ public class Concesionario {
         this.numTrabajadores = null;
     }
 
+    // Método constructur
     public Concesionario(String cif, String nombre, String direccion, String provincia, String telefono, Integer numTrabajadores) {
         this.cif = cif;
         this.nombre = nombre;
@@ -36,6 +43,7 @@ public class Concesionario {
         this.numTrabajadores = numTrabajadores;
     }
 
+    // Métodos setters y getters
     public String getCif() {
         return cif;
     }
@@ -84,15 +92,17 @@ public class Concesionario {
         this.numTrabajadores = numTrabajadores;
     }
 
+    // Método toString() (se emplea para rellenarar objetos JComboBox fundamentalmente)
     @Override
     public String toString() {
-        return String.format("%s | CIF: %s",
+        return String.format("%-20s | CIF: %-9s",
                 this.nombre,
                 this.cif);
     }
 
+    // Método toString() ampliado (personalizado para la aplicación de la tarea)
     public String toStringCompleto() {
-        return String.format("%s | CIF: %s | Dirección: %s | Provincia: %s | Teléfono: %s | Nº Trabajadores: %d",
+        return String.format("%-18s | CIF: %-9s | Dir.: %-25s | Prov.: %-10s | Telf.: %-9s | Nº Trab.: %2d",
                 this.nombre,
                 this.cif,
                 this.direccion,
