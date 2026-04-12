@@ -34,7 +34,7 @@ public class ManejadorBaseDatos {
     public ManejadorBaseDatos(String nombre) {
         String nombreArchivo = nombre + ".db4o";
         this.db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), nombreArchivo);
-        System.out.println(String.format("Base de datos '%s' iniciada correctamente.", nombre));
+        System.out.println(String.format("%sBase de datos '%s' iniciada correctamente.%s", "\u001B[33m",nombre,"\u001B[0m"));
     }
     
      // Método para cargar datos iniciales en la base de objetos db4o (definidos aleatoriamente para realizar la presente tarea)
@@ -392,9 +392,9 @@ public class ManejadorBaseDatos {
     public void cerraBaseDatos(String nombreBD) {
         if (this.db != null) {
             this.db.close();
-            System.out.println(String.format("Base de datos '%s' cerrada correctamente.", nombreBD));
+            System.out.println(String.format("%sBase de datos '%s' cerrada correctamente.%s", "\u001B[33m",nombreBD,"\u001B[0m"));
 
         }
     }
-
+    
 }

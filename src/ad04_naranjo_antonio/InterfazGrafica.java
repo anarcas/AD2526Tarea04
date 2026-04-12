@@ -578,7 +578,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoConcesionarios.setEditable(false);
         jTextAreaListadoConcesionarios.setColumns(20);
-        jTextAreaListadoConcesionarios.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextAreaListadoConcesionarios.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         jTextAreaListadoConcesionarios.setRows(5);
         jScrollPane1.setViewportView(jTextAreaListadoConcesionarios);
 
@@ -626,7 +626,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoCochesPorConcesionario.setEditable(false);
         jTextAreaListadoCochesPorConcesionario.setColumns(20);
-        jTextAreaListadoCochesPorConcesionario.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextAreaListadoCochesPorConcesionario.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         jTextAreaListadoCochesPorConcesionario.setRows(5);
         jScrollPane2.setViewportView(jTextAreaListadoCochesPorConcesionario);
 
@@ -679,7 +679,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoCochesPorKms.setEditable(false);
         jTextAreaListadoCochesPorKms.setColumns(20);
-        jTextAreaListadoCochesPorKms.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextAreaListadoCochesPorKms.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         jTextAreaListadoCochesPorKms.setRows(5);
         jScrollPane3.setViewportView(jTextAreaListadoCochesPorKms);
 
@@ -737,7 +737,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
         jTextAreaListadoCochesPorMarca.setEditable(false);
         jTextAreaListadoCochesPorMarca.setColumns(20);
-        jTextAreaListadoCochesPorMarca.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextAreaListadoCochesPorMarca.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         jTextAreaListadoCochesPorMarca.setRows(5);
         jScrollPane4.setViewportView(jTextAreaListadoCochesPorMarca);
 
