@@ -1116,9 +1116,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
             // Se construye el listado
             StringBuilder sb = new StringBuilder();
-            sb.append("COCHES EN: ").append(concesionario.getNombre()).append("\n");
-            sb.append("Ordenados por precio (Ascendente)\n");
-            sb.append("--------------------------------------------------\n");
+            sb.append("=== COCHES EN: ").append(concesionario.getNombre()).append(" (Ordenados por precio ascendente) ===").append("\n\n");
 
             if (lista.isEmpty()) {
                 sb.append("No hay coches registrados en este concesionario.");
@@ -1180,8 +1178,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
             // Construir el listado de coches
             StringBuilder sb = new StringBuilder();
-            sb.append("Vehículos con menos de ").append(km).append(" km:\n");
-            sb.append("==============================================\n");
+            sb.append(" === Vehículos con menos de ").append(km).append(" km ===\n\n");
 
             if (lista.isEmpty()) {
                 sb.append("No se han encontrado coches que cumplan el criterio.");
@@ -1230,8 +1227,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
 
                 // Se construye el listado
                 StringBuilder sb = new StringBuilder();
-                sb.append("DESCUENTOS aplicados a la marca: ").append(marca).append("\n");
-                sb.append("--------------------------------------------------\n");
+                sb.append(" === DESCUENTOS aplicados a la marca: ").append(marca).append(" === \n\n");
 
                 if (listaActualizada.isEmpty()) {
                     sb.append("No se encontraron coches de esta marca.");
