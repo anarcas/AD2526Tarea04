@@ -215,7 +215,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         jComboBoxMarcaCoche = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CONCESIONARIOS & COCHES - Base de datos orientada a objetos usando db4o ");
+        setTitle("CONCESIONARIOS & COCHES - Base de datos orientada a objetos usando db4o | AD Tarea 04 - Antonio Naranjo");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
